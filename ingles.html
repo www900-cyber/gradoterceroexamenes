@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>English Exam: Parts of the House & Technology (Grade 3)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-body: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --error: #dc2626;
+            --error-bg: #fee2e2;
+            --border: #cbd5e1;
+            --radius: 16px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1.8rem;
+            text-align: center;
+        }
+
+        .quiz-header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .quiz-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #22c55e;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-body {
+            padding: 2rem;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 240px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background-color: #f1f5f9;
+            border: 2px solid #e2e8f0;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            text-align: left;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            color: var(--text);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #eff6ff;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background: #dbeafe;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: var(--success-bg);
+            color: #14532d;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--error);
+            background: var(--error-bg);
+            color: #7f1d1d;
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .feedback-box {
+            padding: 1rem 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-box.correct {
+            background: var(--success-bg);
+            border: 2px solid #86efac;
+            color: #14532d;
+            font-weight: 600;
+        }
+
+        .feedback-box.wrong {
+            background: var(--error-bg);
+            border: 2px solid #fca5a5;
+            color: #7f1d1d;
+            font-weight: 600;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-next:hover {
+            background: var(--primary-hover);
+        }
+
+        .signature-footer {
+            text-align: center;
+            padding: 1.2rem;
+            border-top: 2px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .results-score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .results-msg {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .btn-restart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.9rem 2.2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body translate="no" class="notranslate">
+
+<div class="quiz-container">
+    <div class="quiz-header">
+        <h1>English Fun Quiz! 🏡💻</h1>
+        <p>Parts of the House & Technology (Grade 3 - 20 Questions)</p>
+    </div>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="quiz-body" id="quizBody">
+        <!-- Contenido dinámico -->
+    </div>
+    <div class="signature-footer">
+        Elaborado por Ricardo Julio Tirado - Normalista superior
+    </div>
+</div>
+
+<script>
+const rawQuestions = [
+    // BLOQUE 1: PARTS OF THE HOUSE (1 - 10)
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
+        question: "1. What room is this? Where you sleep in a cozy bed at night.",
+        correctText: "Bedroom",
+        distractors: ["Kitchen", "Bathroom", "Garage"],
+        explanation: "Correct! The room with your bed is the Bedroom."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80",
+        question: "2. What part of the house is this? Where your family cooks delicious meals.",
+        correctText: "Kitchen",
+        distractors: ["Living room", "Garden", "Bedroom"],
+        explanation: "Correct! We prepare food in the Kitchen."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80",
+        question: "3. What room is this? Where you sit on the sofa and watch TV with family.",
+        correctText: "Living room",
+        distractors: ["Bathroom", "Garage", "Kitchen"],
+        explanation: "Correct! The family sofa room is the Living room."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80",
+        question: "4. What part of the house is this? Where you take a warm shower or wash your face.",
+        correctText: "Bathroom",
+        distractors: ["Bedroom", "Kitchen", "Dining room"],
+        explanation: "Correct! Taking a shower happens in the Bathroom."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=800&q=80",
+        question: "5. What outdoor place is this? Where flowers, green grass, and trees grow.",
+        correctText: "Garden",
+        distractors: ["Garage", "Kitchen", "Attic"],
+        explanation: "Correct! Flowers and grass are in the Garden."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=800&q=80",
+        question: "6. What place is this? Where parents park the family car safely.",
+        correctText: "Garage",
+        distractors: ["Bedroom", "Living room", "Balcony"],
+        explanation: "Correct! Cars are parked inside the Garage."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80",
+        question: "7. What room is this? Where the family sits around a big table to eat dinner.",
+        correctText: "Dining room",
+        distractors: ["Bathroom", "Garage", "Garden"],
+        explanation: "Correct! We eat dinner together in the Dining room."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+        question: "8. What part of the house is on the outside, upstairs, where you can stand and see outside?",
+        correctText: "Balcony",
+        distractors: ["Kitchen", "Basement", "Garage"],
+        explanation: "Correct! A raised outdoor platform is a Balcony."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80",
+        question: "9. What space connects the entrance door to the different rooms in a house?",
+        correctText: "Hallway",
+        distractors: ["Kitchen", "Garden", "Garage"],
+        explanation: "Correct! The corridor linking rooms is the Hallway."
+    },
+    {
+        category: "Parts of the House",
+        image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+        question: "10. What is the top outer part that covers and protects the whole house from rain?",
+        correctText: "Roof",
+        distractors: ["Floor", "Door", "Window"],
+        explanation: "Correct! The top covering of the house is the Roof."
+    },
+
+    // BLOQUE 2: TECHNOLOGY & ELECTRONICS (11 - 20)
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=800&q=80",
+        question: "11. What technology in the living room displays cartoons and movies in high definition?",
+        correctText: "Smart TV",
+        distractors: ["Toaster", "Washing machine", "Lamp"],
+        explanation: "Correct! We watch cartoons on a Smart TV."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1588580000645-4562a6d2c839?auto=format&fit=crop&w=800&q=80",
+        question: "12. What device sends wireless Wi-Fi signals so tablets can connect to the internet?",
+        correctText: "Wi-Fi Router",
+        distractors: ["Refrigerator", "Microwave", "Blender"],
+        explanation: "Correct! The Wi-Fi Router gives us wireless internet."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1571175372374-4b13cfb43f44?auto=format&fit=crop&w=800&q=80",
+        question: "13. What kitchen appliance uses electrical energy to heat up food in seconds?",
+        correctText: "Microwave",
+        distractors: ["Washing machine", "Vacuum cleaner", "Smart TV"],
+        explanation: "Correct! A Microwave heats up food very fast."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=800&q=80",
+        question: "14. What large appliance keeps cold drinks, milk, and ice cream fresh?",
+        correctText: "Refrigerator",
+        distractors: ["Microwave", "Toaster", "Hair dryer"],
+        explanation: "Correct! The Refrigerator keeps food cold."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=800&q=80",
+        question: "15. What smart gadget responds to your voice to play music or answer questions?",
+        correctText: "Smart Speaker",
+        distractors: ["Washing machine", "Refrigerator", "Blender"],
+        explanation: "Correct! A Smart Speaker listens and plays music."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80",
+        question: "16. What portable computer can you open and use on a desk in your bedroom for schoolwork?",
+        correctText: "Laptop",
+        distractors: ["Television", "Microwave", "Printer"],
+        explanation: "Correct! A portable computer is a Laptop."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80",
+        question: "17. What flat touchscreen device is bigger than a phone and great for playing learning games?",
+        correctText: "Tablet",
+        distractors: ["Washing machine", "Router", "Speaker"],
+        explanation: "Correct! A touchscreen gaming/learning device is a Tablet."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?auto=format&fit=crop&w=800&q=80",
+        question: "18. What technology cleans dirty clothes automatically using water and soap?",
+        correctText: "Washing machine",
+        distractors: ["Refrigerator", "Smart TV", "Microwave"],
+        explanation: "Correct! Dirty clothes are washed in a Washing machine."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=800&q=80",
+        question: "19. What electronic device cleans carpets and floors by sucking up dust?",
+        correctText: "Vacuum cleaner",
+        distractors: ["Blender", "Toaster", "Computer"],
+        explanation: "Correct! A Vacuum cleaner cleans dust from floors."
+    },
+    {
+        category: "Technology in the House",
+        image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=800&q=80",
+        question: "20. What technological tool prints photos and documents from a computer onto paper?",
+        correctText: "Printer",
+        distractors: ["Mouse", "Keyboard", "Headphones"],
+        explanation: "Correct! A Printer puts computer pictures onto paper."
+    }
+];
+
+let questions = [];
+let currentQuestion = 0;
+let score = 0;
+let selectedOption = null;
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function prepareQuestions() {
+    const prefixes = ["A) ", "B) ", "C) ", "D) "];
+    questions = rawQuestions.map(item => {
+        const allTexts = shuffleArray([item.correctText, ...item.distractors]);
+        const correctIndex = allTexts.indexOf(item.correctText);
+        const optionsWithPrefix = allTexts.map((text, idx) => prefixes[idx] + text);
+
+        return {
+            category: item.category,
+            image: item.image,
+            question: item.question,
+            options: optionsWithPrefix,
+            answer: correctIndex,
+            explanation: item.explanation
+        };
+    });
+}
+
+function loadQuestion() {
+    const q = questions[currentQuestion];
+    const quizBody = document.getElementById("quizBody");
+    const progressBar = document.getElementById("progressBar");
+
+    progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+    quizBody.innerHTML = `
+        <div class="meta-info">
+            <span class="badge">${q.category}</span>
+            <span>Question ${currentQuestion + 1} of ${questions.length}</span>
+        </div>
+        <div class="img-container">
+            <img src="${q.image}" alt="Question Illustration">
+        </div>
+        <div class="question-text">${q.question}</div>
+        <div class="options-grid">
+            ${q.options.map((opt, idx) => `
+                <button class="option-btn" onclick="selectOption(${idx})" id="opt-${idx}">
+                    ${opt}
+                </button>
+            `).join('')}
+        </div>
+        <div class="feedback-box" id="feedbackBox"></div>
+        <div class="quiz-footer">
+            <button class="btn-next" id="btnNext" onclick="submitAnswer()" disabled>Confirm Answer</button>
+        </div>
+    `;
+    selectedOption = null;
+}
+
+function selectOption(index) {
+    if (document.getElementById("btnNext").textContent === "Next Question" || 
+        document.getElementById("btnNext").textContent === "View Results") return;
+
+    const buttons = document.querySelectorAll(".option-btn");
+    buttons.forEach((btn, idx) => {
+        btn.classList.remove("selected");
+        if (idx === index) btn.classList.add("selected");
+    });
+
+    selectedOption = index;
+    document.getElementById("btnNext").disabled = false;
+}
+
+function submitAnswer() {
+    const btnNext = document.getElementById("btnNext");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const q = questions[currentQuestion];
+
+    if (btnNext.textContent === "Next Question") {
+        currentQuestion++;
+        loadQuestion();
+        return;
+    } else if (btnNext.textContent === "View Results") {
+        showResults();
+        return;
+    }
+
+    const buttons = document.querySelectorAll(".option-btn");
+    buttons.forEach(btn => btn.disabled = true);
+
+    if (selectedOption === q.answer) {
+        score++;
+        buttons[selectedOption].classList.add("correct");
+        feedbackBox.className = "feedback-box show correct";
+        feedbackBox.innerHTML = `🌟 <strong>Great job!</strong> ${q.explanation}`;
+    } else {
+        buttons[selectedOption].classList.add("wrong");
+        buttons[q.answer].classList.add("correct");
+        feedbackBox.className = "feedback-box show wrong";
+        feedbackBox.innerHTML = `❌ <strong>Not quite!</strong> ${q.explanation}`;
+    }
+
+    if (currentQuestion < questions.length - 1) {
+        btnNext.textContent = "Next Question";
+    } else {
+        btnNext.textContent = "View Results";
+    }
+}
+
+function showResults() {
+    const quizBody = document.getElementById("quizBody");
+    const percentage = Math.round((score / questions.length) * 100);
+
+    let feedbackMessage = "";
+    if (percentage >= 80) {
+        feedbackMessage = "🎉 Amazing! You are a superstar in English, house vocabulary, and technology!";
+    } else if (percentage >= 60) {
+        feedbackMessage = "👍 Good job! You know your house and technology well.";
+    } else {
+        feedbackMessage = "💪 Keep practicing! Review the parts of the house and devices to get better.";
+    }
+
+    quizBody.innerHTML = `
+        <div class="results-card">
+            <h2>Quiz Finished! 🏆</h2>
+            <div class="results-score">${score} / ${questions.length}</div>
+            <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">Score: ${percentage}%</p>
+            <p class="results-msg">${feedbackMessage}</p>
+            <button class="btn-restart" onclick="restartQuiz()">Play Again 🔄</button>
+        </div>
+    `;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    prepareQuestions();
+    loadQuestion();
+}
+
+prepareQuestions();
+loadQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Examen de Sociales: Periodos Históricos de Colombia (Grado 3°)</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-hover: #1d4ed8;
+            --bg-body: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --success: #15803d;
+            --success-bg: #dcfce7;
+            --error: #b91c1c;
+            --error-bg: #fee2e2;
+            --border: #cbd5e1;
+            --radius: 14px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 1.8rem;
+            text-align: center;
+        }
+
+        .quiz-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .quiz-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #3b82f6;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-body {
+            padding: 2rem;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reading-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 1.2rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #334155;
+        }
+
+        .reading-box h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .img-container {
+            width: 100%;
+            height: 250px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background-color: #e2e8f0;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            text-align: left;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            color: var(--text);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: #f8fafc;
+        }
+
+        .option-btn.selected {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background: var(--success-bg);
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--error);
+            background: var(--error-bg);
+            color: var(--error);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .feedback-box {
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: none;
+        }
+
+        .feedback-box.show {
+            display: block;
+        }
+
+        .feedback-box.correct {
+            background: var(--success-bg);
+            border: 1px solid #86efac;
+            color: #14532d;
+        }
+
+        .feedback-box.wrong {
+            background: var(--error-bg);
+            border: 1px solid #fca5a5;
+            color: #7f1d1d;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .btn-next:hover {
+            background: var(--primary-hover);
+        }
+
+        .signature-footer {
+            text-align: center;
+            padding: 1.2rem;
+            border-top: 1px solid var(--border);
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .results-score {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .results-msg {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .btn-restart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body translate="no" class="notranslate">
+
+<div class="quiz-container">
+    <div class="quiz-header">
+        <h1>Evaluación de Ciencias Sociales: Comprensión Lectora</h1>
+        <p>Periodos Históricos de Colombia — Grado 3°</p>
+    </div>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="quiz-body" id="quizBody">
+        <!-- Contenido generado por JavaScript -->
+    </div>
+    <div class="signature-footer">
+        Elaborado por Ricardo Julio Tirado - Normalista superior
+    </div>
+</div>
+
+<script>
+const readings = {
+    indigena: {
+        title: "Lectura 1: El Periodo Indígena",
+        text: "Hace miles de años, antes de la llegada de los españoles, el territorio colombiano estaba habitado únicamente por los pueblos indígenas. Comunidades como los Muiscas, Taironas, Quimbayas y Zenúes cuidaban la naturaleza, cultivaban maíz, yuca y papas, y eran grandes artesanos del oro y la cerámica. Ellos organizaban sus sociedades respetando el medio ambiente y adorando al Sol y a la Luna."
+    },
+    conquista: {
+        title: "Lectura 2: El Periodo de la Conquista",
+        text: "En el año 1492, Cristóbal Colón llegó a América desde España. Poco después, exploradores y conquistadores españoles llegaron a tierras colombianas buscando riquezas, especialmente oro. Durante este periodo, los españoles fundaron las primeras ciudades como Santa Marta y Cartagena, sometieron a muchos pueblos indígenas mediante las armas e impusieron su idioma y su religión."
+    },
+    colonia: {
+        title: "Lectura 3: El Periodo Colonial",
+        text: "Durante el periodo colonial, España gobernó nuestro territorio por más de 200 años. El rey de España enviaba a un Virrey para dirigir el territorio, que se llamó Virreinato de la Nueva Granada. La sociedad se dividió en clases: los españoles tenían todo el poder, seguidos por los criollos (hijos de españoles nacidos en América), los indígenas y las personas africanas traídas como esclavas."
+    },
+    independencia: {
+        title: "Lectura 4: La Independencia y la República",
+        text: "Cansados del dominio español y de pagar altos impuestos, los habitantes de la Nueva Granada decidieron luchar por su libertad. El 20 de julio de 1810 ocurrió el Grito de Independencia, y el 7 de agosto de 1819, en la Batalla de Boyacá, Simón Bolívar y su ejército lograron la libertad definitiva. A partir de ese momento comenzó el Periodo Republicano, donde los colombianos empezaron a elegir sus propios gobernantes."
+    }
+};
+
+const questions = [
+    // LECTURA 1
+    {
+        readingKey: "indigena",
+        category: "Periodo Indígena",
+        image: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80",
+        question: "1. Según la lectura, ¿quiénes habitaban el territorio colombiano antes de la llegada de los españoles?",
+        options: [
+            "A) Los reyes europeos.",
+            "B) Únicamente los pueblos indígenas.",
+            "C) Los conquistadores y soldados.",
+            "D) Los virreyes y criollos."
+        ],
+        answer: 1,
+        explanation: "El texto afirma claramente que antes de los españoles, el territorio estaba habitado únicamente por pueblos indígenas."
+    },
+    {
+        readingKey: "indigena",
+        category: "Periodo Indígena",
+        image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=800&q=80",
+        question: "2. ¿Cuáles eran algunos de los alimentos principales que cultivaban las comunidades indígenas?",
+        options: [
+            "A) Trigo, arroz y uvas.",
+            "B) Manzanas, peras y naranjas.",
+            "C) Maíz, yuca y papas.",
+            "D) Café, caña y plátano."
+        ],
+        answer: 2,
+        explanation: "La lectura menciona explícitamente que los indígenas cultivaban maíz, yuca y papas."
+    },
+    {
+        readingKey: "indigena",
+        category: "Periodo Indígena",
+        image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+        question: "3. ¿En qué actividades artísticas se destacaron pueblos como los Muiscas y Quimbayas según el texto?",
+        options: [
+            "A) En la pintura al óleo y el tallado de mármol.",
+            "B) En la artesanía del oro y la cerámica.",
+            "C) En la construcción de barcos a motor.",
+            "D) En la fabricación de monedas de papel."
+        ],
+        answer: 1,
+        explanation: "El texto destaca que eran grandes artesanos del oro y la cerámica."
+    },
+    {
+        readingKey: "indigena",
+        category: "Periodo Indígena",
+        image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
+        question: "4. ¿A qué elementos de la naturaleza adoraban los pueblos indígenas descritos en el texto?",
+        options: [
+            "A) Al mar y a los ríos únicamente.",
+            "B) Al viento y al fuego.",
+            "C) Al Sol y a la Luna.",
+            "D) A las nubes y a la lluvia."
+        ],
+        answer: 2,
+        explanation: "La lectura señala que los indígenas organizaban su sociedad adorando al Sol y a la Luna."
+    },
+    {
+        readingKey: "indigena",
+        category: "Periodo Indígena",
+        image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
+        question: "5. ¿Qué valor principal caracterizaba la relación de los indígenas con su entorno?",
+        options: [
+            "A) La destrucción de los bosques.",
+            "B) El respeto por la naturaleza y el medio ambiente.",
+            "C) El comercio con países lejanos.",
+            "D) La búsqueda constante de petróleo."
+        ],
+        answer: 1,
+        explanation: "La lectura indica que cuidaban la naturaleza y organizaban sus sociedades respetando el medio ambiente."
+    },
+
+    // LECTURA 2
+    {
+        readingKey: "conquista",
+        category: "Periodo de la Conquista",
+        image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
+        question: "6. ¿En qué año llegó Cristóbal Colón a América procedente de España?",
+        options: [
+            "A) En 1810.",
+            "B) En 1492.",
+            "C) En 1999.",
+            "D) En 1500."
+        ],
+        answer: 1,
+        explanation: "La lectura de la Conquista comienza señalando que Cristóbal Colón llegó a América en el año 1492."
+    },
+    {
+        readingKey: "conquista",
+        category: "Periodo de la Conquista",
+        image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?auto=format&fit=crop&w=800&q=80",
+        question: "7. ¿Qué riqueza principal buscaban los conquistadores españoles al llegar a Colombia?",
+        options: [
+            "A) Esmeraldas y maderas finas.",
+            "B) Especias y seda.",
+            "C) Especialmente oro.",
+            "D) Tierras para sembrar café."
+        ],
+        answer: 2,
+        explanation: "El texto menciona que los conquistadores españoles llegaron buscando riquezas, especialmente oro."
+    },
+    {
+        readingKey: "conquista",
+        category: "Periodo de la Conquista",
+        image: "https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=800&q=80",
+        question: "8. Según el texto, ¿cuáles fueron algunas de las primeras ciudades fundadas por los españoles?",
+        options: [
+            "A) Bogotá y Medellín.",
+            "B) Santa Marta y Cartagena.",
+            "C) Cali y Bucaramanga.",
+            "D) Pasto y Popayán."
+        ],
+        answer: 1,
+        explanation: "La lectura indica expresamente la fundación de ciudades como Santa Marta y Cartagena."
+    },
+    {
+        readingKey: "conquista",
+        category: "Periodo de la Conquista",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+        question: "9. ¿De qué manera sometieron los españoles a muchos de los pueblos indígenas?",
+        options: [
+            "A) Mediante acuerdos pacíficos.",
+            "B) Mediante el diálogo y los juegos.",
+            "C) Mediante las armas.",
+            "D) Ofreciéndoles viajes a Europa."
+        ],
+        answer: 2,
+        explanation: "La lectura explica que los españoles sometieron a muchos pueblos indígenas mediante las armas."
+    },
+    {
+        readingKey: "conquista",
+        category: "Periodo de la Conquista",
+        image: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80",
+        question: "10. Además del idioma, ¿qué otro elemento importante impusieron los conquistadores?",
+        options: [
+            "A) Su vestimenta típica de invierno.",
+            "B) Su religión.",
+            "C) Sus bailes tradicionales.",
+            "D) Su moneda de papel."
+        ],
+        answer: 1,
+        explanation: "El texto señala que los españoles impusieron a los indígenas su idioma y su religión."
+    },
+
+    // LECTURA 3
+    {
+        readingKey: "colonia",
+        category: "Periodo Colonial",
+        image: "https://images.unsplash.com/photo-1599423300746-b62533397364?auto=format&fit=crop&w=800&q=80",
+        question: "11. ¿Aproximadamente cuánto tiempo gobernó España el territorio colombiano durante la Colonia?",
+        options: [
+            "A) 50 años.",
+            "B) Más de 200 años.",
+            "C) Solo 10 años.",
+            "D) 500 años."
+        ],
+        answer: 1,
+        explanation: "La lectura del Periodo Colonial indica que España gobernó nuestro territorio por más de 200 años."
+    },
+    {
+        readingKey: "colonia",
+        category: "Periodo Colonial",
+        image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80",
+        question: "12. ¿Qué autoridad nombraba el Rey de España para gobernar el Virreinato de la Nueva Granada?",
+        options: [
+            "A) Un Presidente.",
+            "B) Un Alcalde.",
+            "C) Un Virrey.",
+            "D) Un Senador."
+        ],
+        answer: 2,
+        explanation: "La lectura explica que el rey enviaba a un Virrey para dirigir el territorio colonial."
+    },
+    {
+        readingKey: "colonia",
+        category: "Periodo Colonial",
+        image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+        question: "13. ¿Quiénes eran los 'criollos' en la sociedad colonial?",
+        options: [
+            "A) Los españoles nacidos en España.",
+            "B) Los hijos de españoles nacidos en América.",
+            "C) Los líderes indígenas de la región.",
+            "D) Los esclavos traídos de África."
+        ],
+        answer: 1,
+        explanation: "El texto aclara que los criollos eran los hijos de españoles nacidos en tierras americanas."
+    },
+    {
+        readingKey: "colonia",
+        category: "Periodo Colonial",
+        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80",
+        question: "14. ¿Qué grupo social ocupaba la posición más alta y tenía todo el poder en la Colonia?",
+        options: [
+            "A) Los indígenas.",
+            "B) Los africanos esclavisados.",
+            "C) Los españoles.",
+            "D) Los mestizos."
+        ],
+        answer: 2,
+        explanation: "La lectura señala que la sociedad estaba dividida y que los españoles tenían todo el poder."
+    },
+    {
+        readingKey: "colonia",
+        category: "Periodo Colonial",
+        image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
+        question: "15. ¿En qué condición fueron traídas las personas africanas a la Nueva Granada?",
+        options: [
+            "A) Como comerciantes libres.",
+            "B) Como gobernantes y jueces.",
+            "C) Como personas esclavas.",
+            "D) Como visitantes temporales."
+        ],
+        answer: 2,
+        explanation: "El texto menciona que las personas africanas fueron traídas en condición de esclavas durante la Colonia."
+    },
+
+    // LECTURA 4
+    {
+        readingKey: "independencia",
+        category: "Independencia y República",
+        image: "https://images.unsplash.com/photo-1569974498991-d3c12a504f95?auto=format&fit=crop&w=800&q=80",
+        question: "16. ¿Cuáles fueron dos razones principales que motivaron la lucha por la libertad?",
+        options: [
+            "A) El deseo de viajar a Europa y comerciar con Asia.",
+            "B) El cansancio del dominio español y el pago de altos impuestos.",
+            "C) La falta de alimentos y el clima frío.",
+            "D) El deseo de nombrar a un nuevo Rey."
+        ],
+        answer: 1,
+        explanation: "La lectura expresa que los habitantes se cansaron del dominio español y de pagar altos impuestos."
+    },
+    {
+        readingKey: "independencia",
+        category: "Independencia y República",
+        image: "https://images.unsplash.com/photo-1532375810709-75b1da00537c?auto=format&fit=crop&w=800&q=80",
+        question: "17. ¿Qué acontecimiento histórico importante ocurrió el 20 de julio de 1810?",
+        options: [
+            "A) La llegada de Cristóbal Colón.",
+            "B) El Grito de Independencia.",
+            "C) La fundación de Bogotá.",
+            "D) El fin del periodo republicano."
+        ],
+        answer: 1,
+        explanation: "El texto indica que el 20 de julio de 1810 ocurrió el famoso Grito de Independencia."
+    },
+    {
+        readingKey: "independencia",
+        category: "Independencia y República",
+        image: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?auto=format&fit=crop&w=800&q=80",
+        question: "18. ¿En qué batalla se selló la libertad definitiva de Colombia el 7 de agosto de 1819?",
+        options: [
+            "A) Batalla del Pantano de Vargas.",
+            "B) Batalla de Boyacá.",
+            "C) Batalla de Carabobo.",
+            "D) Batalla de Cúcuta."
+        ],
+        answer: 1,
+        explanation: "La lectura menciona que el 7 de agosto de 1819 se logró la libertad definitiva en la Batalla de Boyacá."
+    },
+    {
+        readingKey: "independencia",
+        category: "Independencia y República",
+        image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
+        question: "19. ¿Quién lideró el ejército patriota que logró la independencia en la Batalla de Boyacá?",
+        options: [
+            "A) Cristóbal Colón.",
+            "B) El Virrey Amar y Borbón.",
+            "C) Simón Bolívar.",
+            "D) Francisco Pizarro."
+        ],
+        answer: 2,
+        explanation: "El texto resalta que Simón Bolívar y su ejército lograron la victoria en la Batalla de Boyacá."
+    },
+    {
+        readingKey: "independencia",
+        category: "Independencia y República",
+        image: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=800&q=80",
+        question: "20. ¿Qué cambio principal ocurrió al comenzar el Periodo Republicano?",
+        options: [
+            "A) España volvió a nombrar a un Virrey.",
+            "B) Los colombianos comenzaron a elegir a sus propios gobernantes.",
+            "C) Se prohibió el uso del idioma español.",
+            "D) La gente volvió a vivir en cuevas."
+        ],
+        answer: 1,
+        explanation: "La lectura concluye que en el Periodo Republicano los colombianos empezaron a elegir sus propios gobernantes."
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let selectedOption = null;
+
+function loadQuestion() {
+    const q = questions[currentQuestion];
+    const reading = readings[q.readingKey];
+    const quizBody = document.getElementById("quizBody");
+    const progressBar = document.getElementById("progressBar");
+
+    progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+    quizBody.innerHTML = `
+        <div class="meta-info">
+            <span class="badge">${q.category}</span>
+            <span>Pregunta ${currentQuestion + 1} de ${questions.length}</span>
+        </div>
+        <div class="reading-box">
+            <h3>${reading.title}</h3>
+            <p>${reading.text}</p>
+        </div>
+        <div class="img-container">
+            <img src="${q.image}" alt="Ilustración de la pregunta">
+        </div>
+        <div class="question-text">${q.question}</div>
+        <div class="options-grid">
+            ${q.options.map((opt, idx) => `
+                <button class="option-btn" onclick="selectOption(${idx})" id="opt-${idx}">
+                    ${opt}
+                </button>
+            `).join('')}
+        </div>
+        <div class="feedback-box" id="feedbackBox"></div>
+        <div class="quiz-footer">
+            <button class="btn-next" id="btnNext" onclick="submitAnswer()" disabled>Confirmar Respuesta</button>
+        </div>
+    `;
+    selectedOption = null;
+}
+
+function selectOption(index) {
+    if (document.getElementById("btnNext").textContent === "Siguiente Pregunta" || 
+        document.getElementById("btnNext").textContent === "Ver Resultados") return;
+
+    const buttons = document.querySelectorAll(".option-btn");
+    buttons.forEach((btn, idx) => {
+        btn.classList.remove("selected");
+        if (idx === index) btn.classList.add("selected");
+    });
+
+    selectedOption = index;
+    document.getElementById("btnNext").disabled = false;
+}
+
+function submitAnswer() {
+    const btnNext = document.getElementById("btnNext");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const q = questions[currentQuestion];
+
+    if (btnNext.textContent === "Siguiente Pregunta") {
+        currentQuestion++;
+        loadQuestion();
+        return;
+    } else if (btnNext.textContent === "Ver Resultados") {
+        showResults();
+        return;
+    }
+
+    const buttons = document.querySelectorAll(".option-btn");
+    buttons.forEach(btn => btn.disabled = true);
+
+    if (selectedOption === q.answer) {
+        score++;
+        buttons[selectedOption].classList.add("correct");
+        feedbackBox.className = "feedback-box show correct";
+        feedbackBox.innerHTML = `<strong>¡Correcto!</strong> ${q.explanation}`;
+    } else {
+        buttons[selectedOption].classList.add("wrong");
+        buttons[q.answer].classList.add("correct");
+        feedbackBox.className = "feedback-box show wrong";
+        feedbackBox.innerHTML = `<strong>Incorrecto.</strong> ${q.explanation}`;
+    }
+
+    if (currentQuestion < questions.length - 1) {
+        btnNext.textContent = "Siguiente Pregunta";
+    } else {
+        btnNext.textContent = "Ver Resultados";
+    }
+}
+
+function showResults() {
+    const quizBody = document.getElementById("quizBody");
+    const percentage = Math.round((score / questions.length) * 100);
+
+    let feedbackMessage = "";
+    if (percentage >= 80) {
+        feedbackMessage = "¡Excelente trabajo! Demostraste una gran comprensión lectora de la historia de Colombia.";
+    } else if (percentage >= 60) {
+        feedbackMessage = "¡Buen esfuerzo! Repasa nuevamente las lecturas para perfeccionar tus respuestas.";
+    } else {
+        feedbackMessage = "Sigue practicando la lectura atenta de los textos históricos para mejorar tus resultados.";
+    }
+
+    quizBody.innerHTML = `
+        <div class="results-card">
+            <h2>Evaluación Finalizada</h2>
+            <div class="results-score">${score} / ${questions.length}</div>
+            <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary); margin-bottom: 0.5rem;">Puntaje: ${percentage}%</p>
+            <p class="results-msg">${feedbackMessage}</p>
+            <button class="btn-restart" onclick="restartQuiz()">Reiniciar Examen</button>
+        </div>
+    `;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    loadQuestion();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es" translate="no" class="notranslate">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
+    <title>Portal de Evaluaciones Escolares - Grado 5°</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-hover: #1d4ed8;
+            --bg-body: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #475569;
+            --border: #cbd5e1;
+            --radius: 14px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .portal-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+        }
+
+        .portal-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .portal-body {
+            padding: 2.5rem;
+        }
+
+        .grid-subjects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .subject-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.8rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            background: #eff6ff;
+            box-shadow: 0 10px 15px -3px rgba(30, 64, 175, 0.15);
+        }
+
+        .subject-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subject-card h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .subject-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .signature-footer {
+            text-align: center;
+            padding: 1.2rem;
+            border-top: 1px solid var(--border);
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body translate="no" class="notranslate">
+
+<div class="portal-container">
+    <div class="portal-header">
+        <h1>Portal de Evaluaciones Académicas</h1>
+        <p>Selecciona la asignatura para iniciar tu examen interactivo</p>
+    </div>
+    
+    <div class="portal-body">
+        <div class="grid-subjects">
+            <a href="castellano.html" class="subject-card">
+                <div class="subject-icon">📚</div>
+                <h3>Castellano</h3>
+                <p>Comprensión lectora y gramática</p>
+            </a>
+
+            <a href="matematicas.html" class="subject-card">
+                <div class="subject-icon">🔢</div>
+                <h3>Matemáticas</h3>
+                <p>Pensamiento lógico y numérico</p>
+            </a>
+
+            <a href="sociales.html" class="subject-card">
+                <div class="subject-icon">🌎</div>
+                <h3>Sociales</h3>
+                <p>Periodos históricos de Colombia</p>
+            </a>
+
+            <a href="naturales.html" class="subject-card">
+                <div class="subject-icon">🌿</div>
+                <h3>Naturales</h3>
+                <p>Ciencias de la vida y el entorno</p>
+            </a>
+
+            <a href="ingles.html" class="subject-card">
+                <div class="subject-icon">🇬🇧</div>
+                <h3>Inglés</h3>
+                <p>Sequence Connectors & Mass Media</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="signature-footer">
+        Elaborado por Ricardo Julio Tirado - Normalista superior
+    </div>
+</div>
+
+</body>
+</html>
