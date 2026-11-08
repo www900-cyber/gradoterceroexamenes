@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Súper Exploradores de la Naturaleza 🌿 - 3º Grado</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fredoka & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #F0FDF4; /* Verde suave muy natural */
+        }
+        h1, h2, h3, .font-fun {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+        .card-nature-shadow {
+            box-shadow: 0 12px 28px -6px rgba(16, 185, 129, 0.12), 0 8px 12px -6px rgba(0, 0, 0, 0.04);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #DCFCE7;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4ADE80;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #22C55E;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 flex flex-col justify-between">
+
+    <!-- HEADER / BARRA DE NAVEGACIÓN DIVERTIDA -->
+    <header class="bg-gradient-to-r from-emerald-500 via-teal-500 to-green-500 text-white shadow-md sticky top-0 z-50 no-print">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/90 p-2 rounded-2xl shadow-inner text-emerald-600 animate-bounce">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold tracking-wide flex items-center gap-2">
+                        <span>Aventura en la Naturaleza</span> 🇨🇴
+                    </h1>
+                    <p class="text-xs text-emerald-100 font-semibold">Examen de Ciencias Naturales • 3.º Primaria</p>
+                </div>
+            </div>
+
+            <!-- Marcador de Puntuación y Estrellas -->
+            <div class="flex items-center gap-3 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/40">
+                <div class="flex items-center gap-1.5" title="Puntos ganados">
+                    <span class="text-2xl">⭐</span>
+                    <span id="score-display" class="font-bold text-lg">0 / 50</span>
+                </div>
+                <div class="h-6 w-px bg-white/40"></div>
+                <div class="flex items-center gap-1.5" title="Número de pregunta">
+                    <span class="text-2xl">🐾</span>
+                    <span id="question-num-display" class="font-bold text-lg">1 / 50</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barra de progreso -->
+        <div class="w-full bg-black/10 h-3">
+            <div id="progress-bar" class="bg-yellow-300 h-3 transition-all duration-300 rounded-r-full shadow-sm" style="width: 2%"></div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-4xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- FILTROS Y CONTROLES SUPERIORES -->
+        <div class="bg-white p-4 rounded-3xl shadow-sm mb-6 border-2 border-emerald-100 no-print flex flex-col md:flex-row gap-3 justify-between items-center">
+            <div class="w-full md:w-auto flex items-center gap-2">
+                <label for="topic-select" class="text-xs font-bold uppercase tracking-wider text-emerald-700 whitespace-nowrap">🔍 Tema:</label>
+                <select id="topic-select" onchange="filterTopic(this.value)" class="w-full md:w-auto bg-emerald-50/60 border border-emerald-300 text-emerald-900 text-sm rounded-2xl p-2.5 font-bold outline-none focus:ring-2 focus:ring-emerald-400">
+                    <option value="all">🌈 Todos los temas (50 preguntas)</option>
+                    <option value="Relaciones entre Seres Vivos">1. Relaciones entre Seres Vivos</option>
+                    <option value="Tipos de Relaciones">2. Tipos de Relaciones (Mutualismo, Depredación, etc.)</option>
+                    <option value="Factores Bióticos y Abióticos">3. Factores Bióticos y Abióticos</option>
+                    <option value="Agua y Luz Solar en las Plantas">4. Agua y Luz Solar en las Plantas</option>
+                </select>
+            </div>
+            
+            <div class="flex items-center gap-2 w-full md:w-auto justify-end">
+                <button onclick="prevQuestion()" id="btn-prev" class="px-4 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold rounded-2xl text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1 shadow-sm">
+                    ⬅️ Anterior
+                </button>
+                <button onclick="nextQuestion()" id="btn-next" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl text-sm transition-all flex items-center gap-1 shadow-md">
+                    Siguiente ➡️
+                </button>
+            </div>
+        </div>
+
+        <!-- TARJETA PRINCIPAL DE LA PREGUNTA -->
+        <div id="quiz-container" class="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-200 card-nature-shadow transition-all relative overflow-hidden">
+            
+            <!-- Encabezado del Tema y Número -->
+            <div class="flex items-center justify-between border-b border-emerald-100 pb-3 mb-4">
+                <span id="badge-topic" class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider">
+                    Cargando tema...
+                </span>
+                <span id="question-index-tag" class="text-xs font-bold text-slate-400">
+                    Pregunta 1 de 50
+                </span>
+            </div>
+
+            <!-- Sección "LEE Y APRENDE" (Comprensión Lectora) -->
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200/80 rounded-2xl p-4 md:p-5 mb-6 flex flex-col md:flex-row gap-4 items-center">
+                <div id="svg-illustration" class="w-28 h-28 md:w-32 md:h-32 flex-shrink-0 flex items-center justify-center bg-white rounded-2xl shadow-sm p-2 border border-amber-200">
+                    <!-- SVG Ilustrativo -->
+                </div>
+                <div class="flex-1 text-slate-700">
+                    <div class="flex items-center gap-2 text-amber-700 font-bold text-sm uppercase tracking-wide mb-1">
+                        <span class="text-lg">📖</span>
+                        <span>Lee y aprende antes de responder:</span>
+                    </div>
+                    <p id="learning-text" class="text-sm md:text-base leading-relaxed font-medium text-slate-700">
+                        Cargando texto de lectura...
+                    </p>
+                </div>
+            </div>
+
+            <!-- Pregunta -->
+            <h2 id="question-title" class="text-lg md:text-xl font-bold text-slate-900 mb-6 flex items-start gap-2">
+                <span class="text-emerald-500">❓</span>
+                <span id="question-text-content">Cargando pregunta...</span>
+            </h2>
+
+            <!-- Opciones de Respuesta -->
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Se generan dinámicamente -->
+            </div>
+
+            <!-- Caja de Explicación / Retroalimentación -->
+            <div id="feedback-box" class="hidden rounded-2xl p-4 md:p-5 border-2 text-sm leading-relaxed mb-2 font-medium">
+                <!-- Contenido generado por JS -->
+            </div>
+
+        </div>
+
+        <!-- PANTALLA DE RESULTADOS RECAPITULATORIA -->
+        <div id="results-screen" class="hidden bg-white rounded-3xl p-8 border-2 border-emerald-300 card-nature-shadow text-center">
+            <div class="inline-block p-4 bg-yellow-100 text-amber-500 rounded-full mb-4 animate-bounce">
+                <span class="text-6xl">🎉</span>
+            </div>
+            <h2 class="text-3xl font-bold text-emerald-800 mb-2 font-fun">¡Felicidades, Súper Explorador!</h2>
+            <p class="text-slate-600 mb-6 font-medium">Has completado el Examen de Ciencias Naturales sobre el medio ambiente y los seres vivos.</p>
+            
+            <div class="bg-emerald-50 p-6 rounded-3xl border-2 border-emerald-200 max-w-sm mx-auto mb-6 shadow-inner">
+                <div class="text-emerald-700 text-sm font-bold uppercase tracking-wider mb-1">Puntuación de Estrellas</div>
+                <div id="final-score" class="text-5xl font-extrabold text-amber-500 font-fun">0 / 50</div>
+                <div id="score-percentage" class="text-sm text-emerald-800 font-bold mt-2">0% de respuestas correctas</div>
+            </div>
+
+            <div id="result-message" class="text-lg font-bold text-slate-700 mb-8 max-w-lg mx-auto">
+                <!-- Mensaje motivacional -->
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 no-print">
+                <button onclick="restartQuiz()" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl transition-all shadow-md flex items-center gap-2">
+                    🔄 Jugar de nuevo
+                </button>
+                <button onclick="window.print()" class="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-2xl transition-all shadow-md flex items-center gap-2">
+                    🖨️ Imprimir Diploma / Resumen
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="bg-white border-t border-emerald-100 py-4 text-center text-xs text-slate-500 font-semibold no-print">
+        <p>🌿 Ciencias Naturales • 3.º Grado de Primaria • Colombia 🇨🇴</p>
+    </footer>
+
+    <!-- JAVASCRIPT DEL CUESTIONARIO -->
+    <script>
+        // BASE DE DATOS DE 50 PREGUNTAS DIVIDIDAS EN LOS 4 TEMAS PEDIDOS
+        const questionsData = [
+            // =========================================================================
+            // TEMA 1: RELACIONES ENTRE LOS SERES VIVOS (Intraespecíficas e Interespecíficas) (1-12)
+            // =========================================================================
+            {
+                id: 1,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "chiguiros",
+                learningText: "En los llanos de Colombia, los chigüiros viven en manadas (grupos del mismo tipo de animal). Cuando los seres vivos de la MISMA especie se relacionan entre sí para protegerse y buscar comida, llamamos a esto una relación INTRAESPECÍFICA.",
+                question: "¿Cómo se llama la relación que ocurre entre animales de la MISMA especie, como una manada de chigüiros?",
+                type: "multiple",
+                options: [
+                    "A. Relación Interespecífica.",
+                    "B. Relación Intraespecífica.",
+                    "C. Relación de extinción.",
+                    "D. Relación abiótica."
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! Recuerda la palabra: INTRA significa dentro de la misma especie (chigüiro con chigüiro)."
+            },
+            {
+                id: 2,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "colibri",
+                learningText: "Un colibrí visita una hermosa flor de orquídea colombiana para tomar su néctar. Como el colibrí y la orquídea son seres vivos de DIFERENTES especies, esta relación se llama INTERESPECÍFICA.",
+                question: "Una relación INTERESPECÍFICA es la que ocurre entre seres vivos de DIFERENTES especies.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Correcto! INTER significa entre especies distintas, como el colibrí y la flor."
+            },
+            {
+                id: 3,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "hormigas",
+                learningText: "En un hormiguero, miles de hormigas arrieras trabajan juntas organizadas en familias. Unas buscan hojas, otras cuidan a los bebés y otras defienden el nido. Esta es una relación dentro de la misma especie.",
+                question: "¿Las hormigas arrieras que trabajan juntas en su hormiguero tienen una relación intraespecífica?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Así es! Todas las hormigas pertenecen a la misma especie y se ayudan en comunidad."
+            },
+            {
+                id: 4,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "jaguar",
+                learningText: "En la selva del Amazonas, un jaguar busca cazar a un venado para alimentarse. El jaguar y el venado son de especies distintas interactuando en el mismo lugar.",
+                question: "¿Qué tipo de relación se presenta entre el jaguar y el venado?",
+                type: "multiple",
+                options: [
+                    "A. Relación Intraespecífica (misma especie).",
+                    "B. Relación Interespecífica (diferentes especies).",
+                    "C. Relación Abiótica sin vida.",
+                    "D. Una relación de fotosíntesis."
+                ],
+                correct: 1,
+                explanation: "¡Excelente! Al ser dos especies completamente diferentes (jaguar y venado), la relación es interespecífica."
+            },
+            {
+                id: 5,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "aves",
+                learningText: "Un grupo de loros que vuelan juntos en el cielo colombiano para cuidar sus nidos y avisarse si viene un peligro está haciendo una relación Intraespecífica.",
+                question: "Un grupo de loros volando juntos es un ejemplo de relación interespecífica.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 1,
+                explanation: "¡Falso! Es una relación INTRAespecífica porque todos son loros de la misma especie."
+            },
+            {
+                id: 6,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "mono",
+                learningText: "En los árboles del Chocó, una familia de monos aulladores cuida a sus pequeños monitos, alimentándolos y dándoles calor. Esto ayuda a que la especie sobreviva.",
+                question: "¿Por qué se unen los animales de la misma especie en relaciones intraespecíficas?",
+                type: "multiple",
+                options: [
+                    "A. Para pelear hasta desaparecer.",
+                    "B. Para ayudarse a cuidar a las crías, defenderse y conseguir comida.",
+                    "C. Para transformarse en plantas verdes.",
+                    "D. Para apagar el sol en las noches."
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! Estar unidos en manada o familia les permite protegerse y cuidar a sus pequeños."
+            },
+            {
+                id: 7,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "abeja",
+                learningText: "Una abeja recolecta polen de los girasoles. La abeja es un insecto y el girasol es una planta. Al interactuar dos reinos distintos, tenemos una relación interespecífica.",
+                question: "¿La relación entre la abeja y las flores es un ejemplo de relación interespecífica?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Son especies distintas (insecto y planta) interactuando en el ecosistema."
+            },
+            {
+                id: 8,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "pez",
+                learningText: "En el río Magdalena, un grupo de peces bocachicos nada junto formando un 'cardumen'. El cardumen les ayuda a confundir a los depredadores grandes.",
+                question: "¿Cómo se llama el grupo organizado de peces de la misma especie que nada junto?",
+                type: "multiple",
+                options: [
+                    "A. Enjambre",
+                    "B. Cardumen",
+                    "C. Jauría",
+                    "D. Rebaño"
+                ],
+                correct: 1,
+                explanation: "¡Así se habla! El grupo de peces de la misma especie se llama cardumen."
+            },
+            {
+                id: 9,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "tree",
+                learningText: "En un bosque, dos pinos pequeños crecen muy juntos y sus raíces compiten por el agua del suelo. Como ambos son pinos de la misma especie, es una competencia intraespecífica.",
+                question: "Cuando dos plantas de la MISMA especie compiten por la luz, ¿la relación es intraespecífica?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Ocurre entre miembros del mismo tipo de planta."
+            },
+            {
+                id: 10,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "chiguiros",
+                learningText: "En la naturaleza, ninguna planta o animal vive totalmente aislado. Todos los seres vivos necesitan comunicarse y relacionarse con otros para alimentarse, reproducirse o tener refugio.",
+                question: "¿Es verdad que todos los seres vivos necesitan relacionarse con otros en el medio ambiente?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Las relaciones entre seres vivos son fundamentales para la vida en la Tierra."
+            },
+            {
+                id: 11,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "jaguar",
+                learningText: "Dos jaguares machos rugen y luchan por defender su territorio en la selva. Ambos son jaguares, por lo que este conflicto es una relación intraespecífica.",
+                question: "La pelea entre dos jaguares machos por su territorio es una relación:",
+                type: "multiple",
+                options: [
+                    "A. Intraespecífica",
+                    "B. Interespecífica",
+                    "C. De mutualismo",
+                    "D. Abiótica"
+                ],
+                correct: 0,
+                explanation: "¡Muy bien! Son de la misma especie (jaguares), por eso es intraespecífica."
+            },
+            {
+                id: 12,
+                topic: "Relaciones entre Seres Vivos",
+                svgType: "colibri",
+                learningText: "Las relaciones en la naturaleza permiten que el ecosistema se mantenga equilibrado, haciendo que ni una sola especie se multiplique demasiado ni desaparezca sin razón.",
+                question: "¿Las relaciones entre seres vivos ayudan a mantener el equilibrio de los ecosistemas en Colombia?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Excelente! Gracias a estas interacciones la naturaleza se mantiene en balance."
+            },
+
+            // =========================================================================
+            // TEMA 2: TIPOS DE RELACIONES (Mutualismo, Depredación, Cooperación, Parasitismo, Competencia) (13-26)
+            // =========================================================================
+            {
+                id: 13,
+                topic: "Tipos de Relaciones",
+                svgType: "colibri",
+                learningText: "En el MUTUALISMO, ambos seres vivos se benefician y se ayudan. Por ejemplo, el colibrí toma el dulce néctar de la flor y a cambio transporta el polen para que nazcan nuevas plantas. ¡Los dos ganan!",
+                question: "¿Qué ocurre en la relación llamada MUTUALISMO?",
+                type: "multiple",
+                options: [
+                    "A. Un ser vivo se come al otro de inmediato.",
+                    "B. Los dos seres vivos se ayudan y se benefician.",
+                    "C. Un ser vivo le hace daño a su amigo sin ganar nada.",
+                    "D. Los dos se quedan dormidos."
+                ],
+                correct: 1,
+                explanation: "¡Perfecto! En el Mutualismo (como la palabra lo dice, 'mutuo') ¡ambos ganan!"
+            },
+            {
+                id: 14,
+                topic: "Tipos de Relaciones",
+                svgType: "jaguar",
+                learningText: "En la DEPREDACIÓN, un animal cazador (depredador) persigue, atrapa y se alimenta de otro animal (presa). El jaguar cazando a una chigüira es un ejemplo claro de depredación.",
+                question: "En la depredación, ¿cómo se le llama al animal que es cazado?",
+                type: "multiple",
+                options: [
+                    "A. Depredador",
+                    "B. Parasito",
+                    "C. Presa",
+                    "D. Mutualista"
+                ],
+                correct: 2,
+                explanation: "¡Así es! El cazador es el depredador y el animal cazado es la presa."
+            },
+            {
+                id: 15,
+                topic: "Tipos de Relaciones",
+                svgType: "bug",
+                learningText: "El PARASITISMO ocurre cuando un pequeño ser vivo (parásito) vive sobre o dentro de otro más grande (huésped) y le quita su alimento haciendo que se enferme. Una garrapata chupando sangre a un perro es un parásito.",
+                question: "La garrapata que se pega a un perro y le saca sangre haciéndole daño es un ejemplo de Parasitismo.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! La garrapata (parásito) se beneficia pero el perro (huésped) sufre daño."
+            },
+            {
+                id: 16,
+                topic: "Tipos de Relaciones",
+                svgType: "chiguiros",
+                learningText: "La COOPERACIÓN es cuando seres vivos se unen para trabajar juntos por el bien de todos el equipo. Por ejemplo, las delicias que fabrican las abejas en la colmena trabajando unidas.",
+                question: "Cuando los animales se ayudan pacíficamente en equipo para conseguir refugio o alimento, ¿qué relación ejercen?",
+                type: "multiple",
+                options: [
+                    "A. Cooperación",
+                    "B. Parasitismo",
+                    "C. Depredación",
+                    "D. Guerra"
+                ],
+                correct: 0,
+                explanation: "¡Muy bien! Trabajar en equipo se llama Cooperación."
+            },
+            {
+                id: 17,
+                topic: "Tipos de Relaciones",
+                svgType: "aves",
+                learningText: "La COMPETENCIA sucede cuando dos o más seres vivos quieren el mismo recurso que es limitado, como la comida, el agua o la luz. Dos aves peleando por la misma semilla están en competencia.",
+                question: "¿Cuándo se produce la COMPETENCIA en la naturaleza?",
+                type: "multiple",
+                options: [
+                    "A. Cuando a todos les sobra comida y se quedan durmiendo.",
+                    "B. Cuando dos o más organismos luchan por el mismo recurso como comida o espacio.",
+                    "C. Cuando las plantas le regalan frutos a los ríos.",
+                    "D. Cuando cae lluvia helada sobre la tierra."
+                ],
+                correct: 1,
+                explanation: "¡Excelente! La competencia surge cuando el recurso (alimento, territorio) no alcanza para todos."
+            },
+            {
+                id: 18,
+                topic: "Tipos de Relaciones",
+                svgType: "colibri",
+                learningText: "Las mariposas chupando el néctar de las flores mientras las polinizan realizan una relación de mutualismo.",
+                question: "La relación entre la mariposa y la flor donde ambas se benefician es Mutualismo.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! La mariposa come y la flor se reproduce."
+            },
+            {
+                id: 19,
+                topic: "Tipos de Relaciones",
+                svgType: "bug",
+                learningText: "Un piojo que vive en la cabeza de una persona molestando y causando picazón es un parásito que causa daño al ser humano.",
+                question: "¿El piojo actúa como parásito?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! El piojo se alimenta de la sangre de la persona haciéndole daño."
+            },
+            {
+                id: 20,
+                topic: "Tipos de Relaciones",
+                svgType: "jaguar",
+                learningText: "Un águila harpía de la selva colombiana divisa a un mono en la copa de un árbol y se lo come. El águila es el depredador.",
+                question: "¿Qué papel cumple el águila harpía al cazar al mono?",
+                type: "multiple",
+                options: [
+                    "A. Presa",
+                    "B. Depredador",
+                    "C. Parásito",
+                    "D. Vegetal"
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! El animal que caza se denomina Depredador."
+            },
+            {
+                id: 21,
+                topic: "Tipos de Relaciones",
+                svgType: "chiguiros",
+                learningText: "Un pájaro llamado garrapatero se sienta sobre el lomo de un chigüiro y se come los insectos molestos de su piel. El chigüiro queda limpio y el pájaro se alimenta.",
+                question: "¿Qué tipo de relación es la del pájaro garrapatero y el chigüiro si los dos se benefician?",
+                type: "multiple",
+                options: [
+                    "A. Depredación",
+                    "B. Mutualismo",
+                    "C. Competencia",
+                    "D. Parasitismo"
+                ],
+                correct: 1,
+                explanation: "¡Correcto! Ambos obtienen una ventaja: el pájaro come y el chigüiro se desparasita."
+            },
+            {
+                id: 22,
+                topic: "Tipos de Relaciones",
+                svgType: "tree",
+                learningText: "En un bosque tupido, los árboles altos estiran sus ramas hacia arriba para tapar el sol a las plantas pequeñas del suelo. Las plantas están compitiendo por la luz solar.",
+                question: "En esta situación, ¿las plantas compiten por la luz del sol?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Es una competencia interespecífica por un factor abiótico clave: la luz solar."
+            },
+            {
+                id: 23,
+                topic: "Tipos de Relaciones",
+                svgType: "jaguar",
+                learningText: "La depredación es mala para el animal cazado (presa), pero es indispensable para que los ecosistemas colombianos tengan salud y no se llenen de demasiados animales.",
+                question: "¿La depredación ayuda a regular la cantidad de animales en la naturaleza?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Mantiene el control de la población de las presas."
+            },
+            {
+                id: 24,
+                topic: "Tipos de Relaciones",
+                svgType: "bug",
+                learningText: "Las pulgas en los perros no matan de inmediato al animal, sino que viven a su costa durante mucho tiempo. Esta es una característica del parasitismo.",
+                question: "¿Los parásitos suelen matar a su huésped de forma instantánea como un depredador?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 1,
+                explanation: "¡Falso! El parásito prefiere mantener vivo a su huésped para seguir alimentándose de él lentamente."
+            },
+            {
+                id: 25,
+                topic: "Tipos de Relaciones",
+                svgType: "hormigas",
+                learningText: "Las hormigas y los pulgones (pequeños insectos de las plantas) se cuidan mutuamente: la hormiga protege al pulgón y el pulgón le da un líquido dulce. Esto es cooperación/mutualismo.",
+                question: "Esta relación donde la hormiga protege al pulgón a cambio de alimento dulce se llama:",
+                type: "multiple",
+                options: [
+                    "A. Mutualismo / Cooperación",
+                    "B. Competencia feroz",
+                    "C. Parasitismo destructivo",
+                    "D. Extinción"
+                ],
+                correct: 0,
+                explanation: "¡Excelente! Ambos se colaboran pacíficamente."
+            },
+            {
+                id: 26,
+                topic: "Tipos de Relaciones",
+                svgType: "aves",
+                learningText: "Dos leonas en la sabana cazando en equipo a una cebra demuestran una relación de COOPERACIÓN entre cazadoras de la misma manada.",
+                question: "Cazar en grupo uniendo fuerzas es un comportamiento de cooperación.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Trabajan juntas para tener éxito en la caza."
+            },
+
+            // =========================================================================
+            // TEMA 3: ELEMENTOS DEL MEDIO AMBIENTE (Factores Bióticos y Abióticos) (27-38)
+            // =========================================================================
+            {
+                id: 27,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "sun-water",
+                learningText: "Un ecosistema tiene dos componentes: los factores BIÓTICOS (todos los seres que tienen VIDA, como plantas, animales y bacterias) y los factores ABIÓTICOS (elementos sin vida pero necesarios, como el agua, sol, aire y rocas).",
+                question: "¿Qué significa la palabra FACTORES BIÓTICOS?",
+                type: "multiple",
+                options: [
+                    "A. Todos los elementos sin vida de un ecosistema, como las piedras.",
+                    "B. Todos los seres vivos de un lugar (plantas, animales, hongos).",
+                    "C. Las herramientas que fabrican los científicos.",
+                    "D. Los autos y aviones que contaminan el aire."
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! Recuerda: Bio = VIDA. Los factores bióticos son todo lo que tiene vida."
+            },
+            {
+                id: 28,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "sun-water",
+                learningText: "Los factores ABIÓTICOS son los elementos que NO tienen vida pero son indispensables para que los animales y plantas vivan. Por ejemplo: la luz del sol, el agua de los ríos, el aire y la temperatura.",
+                question: "¿Cuál de los siguientes es un FACTOR ABIÓTICO (sin vida)?",
+                type: "multiple",
+                options: [
+                    "A. Un frailejón del páramo",
+                    "B. Una mariposa azul",
+                    "C. El agua cristalina del río",
+                    "D. Un oso de anteojos"
+                ],
+                correct: 2,
+                explanation: "¡Excelente! El agua no tiene vida (es abiótico), pero sin ella ningún ser vivo sobreviviría."
+            },
+            {
+                id: 29,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "chiguiros",
+                learningText: "Un chigüiro (ser vivo) bebe agua del río (sin vida) y respira aire (sin vida). Esto demuestra que los seres bióticos necesitan de los factores abióticos para sobrevivir.",
+                question: "Los seres bióticos (con vida) dependen completamente de los factores abióticos (sin vida).",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Sin agua, luz o aire (abióticos), los seres vivos (bióticos) morirían."
+            },
+            {
+                id: 30,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "tree",
+                learningText: "En los hermosos páramos de Colombia (como Chingaza o Sumapaz), los frailejones son seres BIÓTICOS y el frío viento con neblina es un factor ABIÓTICO.",
+                question: "¿El viento y la neblina del páramo son factores bióticos?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 1,
+                explanation: "¡Falso! El viento y la neblina son abióticos porque no tienen vida propia."
+            },
+            {
+                id: 31,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "sun-water",
+                learningText: "El suelo rico en minerales sobre el que caminamos y donde nacen los cultivos colombianos es un factor ABIÓTICO.",
+                question: "¿El suelo de la tierra es considerado un factor biótico o abiótico?",
+                type: "multiple",
+                options: [
+                    "A. Factor Biótico",
+                    "B. Factor Abiótico",
+                    "C. Ser humano",
+                    "D. Animal silvestre"
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! El suelo es abiótico (componente físico/químico sin vida)."
+            },
+            {
+                id: 32,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "bug",
+                learningText: "Las bacterias invisibles y los hongos que descomponen las hojas secas en la tierra son seres vivos pequeños, por lo tanto son factores BIÓTICOS.",
+                question: "Las bacterias y diminutos hongos del suelo son factores BIÓTICOS.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Aunque sean microscópicos, están vivos."
+            },
+            {
+                id: 33,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "sun-water",
+                learningText: "El sol es la fuente principal de energía abiótica de nuestro planeta. Calienta el ambiente y le da energía a las plantas.",
+                question: "¿Qué elemento abiótico nos brinda luz y calor todos los días?",
+                type: "multiple",
+                options: [
+                    "A. Las nubes",
+                    "B. Las montañas",
+                    "C. El Sol",
+                    "D. Las rocas"
+                ],
+                correct: 2,
+                explanation: "¡Así es! El Sol es nuestro factor abiótico fuente de luz y energía."
+            },
+            {
+                id: 34,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "pez",
+                learningText: "En el mar Caribe de Colombia, los corales y los peces de colores son factores bióticos, mientras que la sal del agua y la arena son abióticos.",
+                question: "En la playa, la arena y la sal del mar son elementos bióticos.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 1,
+                explanation: "¡Falso! La arena y la sal son elementos minerales sin vida (abióticos)."
+            },
+            {
+                id: 35,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "mono",
+                learningText: "Si en un bosque desaparece todo el agua (factor abiótico), los animales (bióticos) tendrán que mudarse o morirán de sed.",
+                question: "Este hecho demuestra que la falta de un factor abiótico afecta directamente a los seres bióticos.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Los seres vivos dependen críticamente de los componentes abióticos."
+            },
+            {
+                id: 36,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "sun-water",
+                learningText: "La temperatura del clima en Colombia (caliente en la playa, frío en la montaña) es un factor abiótico que decide qué tipo de animales pueden vivir allí.",
+                question: "¿La temperatura del clima es un factor abiótico?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Es una condición física abiótica."
+            },
+            {
+                id: 37,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "jaguar",
+                learningText: "Identifica la pareja donde AMBOS son factores BIÓTICOS (con vida):",
+                question: "¿Cuál opción muestra únicamente factores bióticos?",
+                type: "multiple",
+                options: [
+                    "A. Una piedra y una gota de agua.",
+                    "B. Un palmera de cera y un tucán.",
+                    "C. El sol y una brisa helada.",
+                    "D. Las montañas y el oro."
+                ],
+                correct: 1,
+                explanation: "¡Excelente! La palmera de cera (planta) y el tucán (animal) tienen vida."
+            },
+            {
+                id: 38,
+                topic: "Factores Bióticos y Abióticos",
+                svgType: "sun-water",
+                learningText: "El aire contiene oxígeno, un gas abiótico sin el cual los seres humanos y animales colombianos no podrían respirar.",
+                question: "El oxígeno del aire que respiramos es un factor abiótico vital.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Es un gas químico esencial sin vida."
+            },
+
+            // =========================================================================
+            // TEMA 4: ¿POR QUÉ LAS PLANTAS NECESITAN AGUA Y LUZ SOLAR? (39-50)
+            // =========================================================================
+            {
+                id: 39,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "photosynthesis",
+                learningText: "Las plantas son mágicas: son los únicos seres vivos que pueden FABRICAR su propio alimento. Este fabuloso proceso se llama FOTOSÍNTESIS y requiere tres cosas básicas: Luz solar, Agua y Aire.",
+                question: "¿Cómo se llama el proceso mediante el cual las plantas fabrican su alimento usando luz y agua?",
+                type: "multiple",
+                options: [
+                    "A. Digestión animal",
+                    "B. Fotosíntesis",
+                    "C. Respiración pulmonar",
+                    "D. Germinación rápida"
+                ],
+                correct: 1,
+                explanation: "¡Súper! La Fotosíntesis es la fábrica natural de alimento de las plantas."
+            },
+            {
+                id: 40,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "sun-water",
+                learningText: "Las raíces de la planta absorben el AGUA y los nutrientes minerales disueltos en la tierra. Luego, el agua sube por el tallo hasta las verdes hojas.",
+                question: "¿Por qué parte de la planta se absorbe principalmente el agua del suelo?",
+                type: "multiple",
+                options: [
+                    "A. Por las flores",
+                    "B. Por los frutos",
+                    "C. Por las raíces",
+                    "D. Por las espinas"
+                ],
+                correct: 2,
+                explanation: "¡Así es! Las raíces actúan como sorbetes que aspiran agua de la tierra."
+            },
+            {
+                id: 41,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "photosynthesis",
+                learningText: "Las hojas de las plantas capturan la LUZ DEL SOL gracias a una sustancia verde llamada CLOROFILA. Sin luz solar, la planta se pone amarilla y no puede crecer.",
+                question: "La luz del sol le da la energía a las hojas de las plantas para producir azúcar y alimento.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! La luz solar da la energía solar necesaria para mezclar el agua y el aire."
+            },
+            {
+                id: 42,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "tree",
+                learningText: "Al realizar la fotosíntesis con agua y luz solar, las plantas liberan un gas maravilloso llamado OXÍGENO, que es el aire limpio que necesitamos los seres humanos y animales para respirar.",
+                question: "¿Qué gas vital regalan las plantas a la atmósfera cuando hacen fotosíntesis?",
+                type: "multiple",
+                options: [
+                    "A. Oxígeno",
+                    "B. Humo de carro",
+                    "C. Petróleo líquido",
+                    "D. Gas metano"
+                ],
+                correct: 0,
+                explanation: "¡Excelente! Por eso los árboles son los 'pulmones del planeta'."
+            },
+            {
+                id: 43,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "photosynthesis",
+                learningText: "Si colocas una planta dentro de una caja totalmente oscura sin luz durante muchas semanas y sin agua, ¿qué le ocurrirá a la planta?",
+                question: "¿Qué pasa si a una planta le falta por completo luz solar y agua?",
+                type: "multiple",
+                options: [
+                    "A. Crecerá gigante con flores de colores.",
+                    "B. Se marchitará, se secará y morirá.",
+                    "C. Se convertirá en un animal caminante.",
+                    "D. Fabricará el doble de comida."
+                ],
+                correct: 1,
+                explanation: "¡Correcto! Las plantas necesitan indefectiblemente agua y luz para sobrevivir."
+            },
+            {
+                id: 44,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "sun-water",
+                learningText: "El agua ayuda a mantener firmes y ergidas las hojas y ramas de las plantas. Cuando a una planta le falta agua, se pone triste y 'desmayada'.",
+                question: "El agua ayuda a que las plantas se mantengan hidratadas y erguidas con fuerza.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! El agua llena las células de la planta dándole firmeza."
+            },
+            {
+                id: 45,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "photosynthesis",
+                learningText: "Las plantas son llamadas seres AUTÓTROFOS porque producen su propio alimento, a diferencia de los animales que deben comerse a otros seres.",
+                question: "¿Por qué a las plantas se les llama seres autótrofos?",
+                type: "multiple",
+                options: [
+                    "A. Porque caminan rápido por el campo.",
+                    "B. Porque fabrican su propio alimento con ayuda de agua y luz.",
+                    "C. Porque cazan insectos por la noche.",
+                    "D. Porque duermen todo el invierno."
+                ],
+                correct: 1,
+                explanation: "¡Muy bien! Autótrofo significa 'que fabrica su propio alimento'."
+            },
+            {
+                id: 46,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "tree",
+                learningText: "En los cultivos de café en Colombia, los agricultores riegan agua y se aseguran de que les dé buena luz del sol para que los granos crezcan sanos y cargados de sabor.",
+                question: "El agua disuelve los nutrientes de la tierra para que la planta de café los pueda absorber.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Los nutrientes de la tierra entran a la planta disueltos en el agua."
+            },
+            {
+                id: 47,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "photosynthesis",
+                learningText: "El color verde característico de la gran mayoría de las hojas de las plantas se debe a un pigmento especial receptor de luz solar llamado:",
+                question: "¿Cómo se llama el pigmento verde que atrapa la luz del sol en las hojas?",
+                type: "multiple",
+                options: [
+                    "A. Clorofila",
+                    "B. Gelatina",
+                    "C. Pintura verde",
+                    "D. Azúcar"
+                ],
+                correct: 0,
+                explanation: "¡Perfecto! La Clorofila es la encargada de atrapar la energía de la luz solar."
+            },
+            {
+                id: 48,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "sun-water",
+                learningText: "Las plantas son los productores primarios en las cadenas alimenticias de Colombia. Sin plantas no habría alimento para los animales herbívoros como los venados.",
+                question: "Si no existiera agua ni luz solar para las plantas, ¿afectaría también a los animales?",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 0,
+                explanation: "¡Verdadero! Si las plantas mueren, los animales herbívoros no tendrían qué comer."
+            },
+            {
+                id: 49,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "photosynthesis",
+                learningText: "Durante el día, la planta absorbe luz solar y gas dióxido de carbono del aire para cocinar su alimento en las hojas.",
+                question: "Las plantas solo necesitan agua para vivir y pueden estar en total oscuridad por siempre.",
+                type: "tf",
+                options: ["Verdadero", "Falso"],
+                correct: 1,
+                explanation: "¡Falso! La luz solar es tan indispensable como el agua."
+            },
+            {
+                id: 50,
+                topic: "Agua y Luz Solar en las Plantas",
+                svgType: "tree",
+                learningText: "Cuidar el agua limpia de nuestros ríos colombianos y proteger los árboles es cuidar nuestra propia vida, pues las plantas con agua y sol nos dan el oxígeno para respirar.",
+                question: "¿Por qué es importante cuidar la vegetación y las fuentes de agua en Colombia?",
+                type: "multiple",
+                options: [
+                    "A. Porque las plantas nos dan oxígeno, alimento y mantienen la vida del planeta.",
+                    "B. Porque las plantas aburren a las personas.",
+                    "C. Porque el agua limpia no sirve para nada.",
+                    "D. Para construir solo edificios de cemento."
+                ],
+                correct: 0,
+                explanation: "¡Felicitaciones! Has terminado las 50 preguntas. ¡Eres un verdadero Guardián de la Naturaleza!"
+            }
+        ];
+
+        // SVGs TEMÁTICOS VECTORIALES ADAPTADOS PARA NIÑOS
+        const svgIcons = {
+            chiguiros: `<svg class="w-full h-full text-amber-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 44c4-12 16-16 28-14l8-6 4 4-2 8 6 4-4 10H12z" fill="#FDE68A" fill-opacity="0.4"/><circle cx="44" cy="30" r="2" fill="#78350F"/><path d="M16 48v6M28 48v6M42 48v6" stroke-linecap="round"/></svg>`,
+            colibri: `<svg class="w-full h-full text-emerald-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 24l16 8 8-16 12 8L56 8M24 32l8 16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="44" cy="24" r="3" fill="#10B981"/><path d="M48 24l12-4" stroke-linecap="round"/></svg>`,
+            hormigas: `<svg class="w-full h-full text-amber-900" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="16" cy="32" r="6" fill="#78350F"/><circle cx="32" cy="32" r="5" fill="#78350F"/><circle cx="48" cy="32" r="7" fill="#78350F"/><path d="M16 38l-4 8M32 37v10M48 39l4 8M16 26l-4-8M32 27v-8M48 25l4-8" stroke-linecap="round"/></svg>`,
+            jaguar: `<svg class="w-full h-full text-amber-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 44c0-12 10-20 22-20h10v16H16z" fill="#FEF08A"/><circle cx="42" cy="20" r="8" fill="#FDE68A"/><circle cx="45" cy="18" r="1.5" fill="#000"/><circle cx="28" cy="32" r="2" fill="#78350F"/><circle cx="38" cy="36" r="2" fill="#78350F"/></svg>`,
+            aves: `<svg class="w-full h-full text-sky-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 24c8-8 16 0 16 0s8-8 16 0M28 38c6-6 12 0 12 0s6-6 12 0" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+            mono: `<svg class="w-full h-full text-amber-800" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="32" cy="28" r="14" fill="#FDE68A" fill-opacity="0.5"/><circle cx="20" cy="24" r="4"/><circle cx="44" cy="24" r="4"/><circle cx="27" cy="26" r="2" fill="#000"/><circle cx="37" cy="26" r="2" fill="#000"/><path d="M26 34c4 4 8 4 12 0" stroke-linecap="round"/></svg>`,
+            abeja: `<svg class="w-full h-full text-yellow-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><ellipse cx="32" cy="36" rx="14" ry="10" fill="#FEF08A"/><path d="M26 28v16M32 26v20M38 28v16" stroke="#000" stroke-width="3"/><path d="M24 20c-6-8 2-12 8-4M40 20c6-8-2-12-8-4" fill="#BAE6FD" opacity="0.6"/></svg>`,
+            tree: `<svg class="w-full h-full text-emerald-600" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M28 44h8v14h-8z" fill="#78350F"/><path d="M32 10C18 10 12 24 16 34c4 10 16 12 16 12s12-2 16-12c4-10-2-24-16-24z" fill="#86EFAC" fill-opacity="0.5"/></svg>`,
+            bug: `<svg class="w-full h-full text-rose-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="32" cy="36" r="12" fill="#FECDD3"/><circle cx="32" cy="20" r="6" fill="#F43F5E"/><path d="M20 36h24M18 28l-6-6M46 28l6-6M18 44l-6 6M46 44l6 6" stroke-linecap="round"/></svg>`,
+            pez: `<svg class="w-full h-full text-cyan-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 32c12-16 28-8 36 0-8 8-24 16-36 0z" fill="#A5F3FC"/><path d="M48 32l10-10v20L48 32z" fill="#06B6D4"/><circle cx="22" cy="28" r="2" fill="#000"/></svg>`,
+            sunWater: `<svg class="w-full h-full text-amber-400" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="24" cy="24" r="10" fill="#FEF08A"/><path d="M24 8v4M24 36v4M8 24h4M36 24h4M13 13l3 3M32 32l3 3" stroke-linecap="round"/><path d="M12 50c8-6 16 2 24-4s8-4 16-2" stroke="#0284C7" stroke-width="3" stroke-linecap="round"/></svg>`,
+            photosynthesis: `<svg class="w-full h-full text-green-500" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="16" cy="16" r="6" fill="#FDE68A"/><path d="M16 24l8 8" stroke="#F59E0B" stroke-dasharray="2 2"/><path d="M20 48c10-16 32-12 34 0H20z" fill="#4ADE80" fill-opacity="0.4"/><path d="M36 48V32" stroke="#15803D" stroke-width="3"/></svg>`
+        };
+
+        // ESTADO GLOBAL DE LA APLICACIÓN
+        let activeQuestions = [...questionsData];
+        let currentIndex = 0;
+        let score = 0;
+        let userAnswers = new Array(questionsData.length).fill(null);
+
+        // AL CARGAR LA PÁGINA
+        window.onload = function() {
+            renderQuestion();
+        };
+
+        // FILTRAR POR TEMA
+        function filterTopic(topic) {
+            if (topic === 'all') {
+                activeQuestions = [...questionsData];
+            } else {
+                activeQuestions = questionsData.filter(q => q.topic === topic);
+            }
+            currentIndex = 0;
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        // MOSTRAR LA PREGUNTA ACTUAL
+        function renderQuestion() {
+            if (activeQuestions.length === 0) return;
+
+            const q = activeQuestions[currentIndex];
+            
+            // Textos y Progreso
+            document.getElementById('badge-topic').innerText = q.topic;
+            document.getElementById('question-index-tag').innerText = `Pregunta ${currentIndex + 1} de ${activeQuestions.length}`;
+            document.getElementById('question-num-display').innerText = `${currentIndex + 1} / ${activeQuestions.length}`;
+            
+            const progressPercent = ((currentIndex + 1) / activeQuestions.length) * 100;
+            document.getElementById('progress-bar').style.width = `${progressPercent}%`;
+
+            // SVG Ilustrativo
+            const svgContainer = document.getElementById('svg-illustration');
+            svgContainer.innerHTML = svgIcons[q.svgType] || svgIcons.tree;
+
+            // Enunciados
+            document.getElementById('learning-text').innerText = q.learningText;
+            document.getElementById('question-text-content').innerText = `${currentIndex + 1}. ${q.question}`;
+
+            // Opciones de respuesta
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.classList.add('hidden');
+
+            const currentAnswer = userAnswers[q.id - 1];
+
+            q.options.forEach((optText, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 transition-all font-bold text-sm md:text-base flex items-center justify-between shadow-sm ";
+
+                if (currentAnswer === null) {
+                    // Sin responder
+                    btn.className += "border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100/70 hover:border-emerald-400 text-slate-700";
+                    btn.onclick = () => selectOption(idx);
+                } else {
+                    // Ya respondida
+                    btn.disabled = true;
+                    if (idx === q.correct) {
+                        btn.className += "border-emerald-500 bg-emerald-100 text-emerald-900";
+                        btn.innerHTML = `<span>${optText}</span> <span class="text-xl">🌟 ✅</span>`;
+                    } else if (idx === currentAnswer) {
+                        btn.className += "border-rose-400 bg-rose-50 text-rose-900";
+                        btn.innerHTML = `<span>${optText}</span> <span class="text-xl">❌</span>`;
+                    } else {
+                        btn.className += "border-slate-100 bg-slate-50 text-slate-400 opacity-60";
+                        btn.innerHTML = `<span>${optText}</span>`;
+                    }
+                }
+
+                if (currentAnswer === null) {
+                    btn.innerHTML = `<span>${optText}</span>`;
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Feedback Explicativo
+            if (currentAnswer !== null) {
+                feedbackBox.classList.remove('hidden');
+                if (currentAnswer === q.correct) {
+                    feedbackBox.className = "rounded-2xl p-4 md:p-5 border-2 text-sm leading-relaxed mb-2 font-medium bg-emerald-50 border-emerald-300 text-emerald-900";
+                    feedbackBox.innerHTML = `<strong>¡Súper bien hecho! ⭐🌱</strong><br>${q.explanation}`;
+                } else {
+                    feedbackBox.className = "rounded-2xl p-4 md:p-5 border-2 text-sm leading-relaxed mb-2 font-medium bg-amber-50 border-amber-300 text-amber-900";
+                    feedbackBox.innerHTML = `<strong>¡Casi casi! Aprende este dato útil: 💡</strong><br>${q.explanation}`;
+                }
+            }
+
+            // Habilitar / deshabilitar botones
+            document.getElementById('btn-prev').disabled = currentIndex === 0;
+            
+            const btnNext = document.getElementById('btn-next');
+            if (currentIndex === activeQuestions.length - 1) {
+                btnNext.innerText = "Ver Resultados 🏆";
+                btnNext.className = "px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-2xl text-sm transition-all flex items-center gap-1 shadow-md";
+            } else {
+                btnNext.innerText = "Siguiente ➡️";
+                btnNext.className = "px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl text-sm transition-all flex items-center gap-1 shadow-md";
+            }
+        }
+
+        // RESPONDER PREGUNTA
+        function selectOption(selectedIndex) {
+            const q = activeQuestions[currentIndex];
+            userAnswers[q.id - 1] = selectedIndex;
+
+            if (selectedIndex === q.correct) {
+                score++;
+            }
+
+            document.getElementById('score-display').innerText = `${score} / ${questionsData.length}`;
+            renderQuestion();
+        }
+
+        // ANTERIOR
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        }
+
+        // SIGUIENTE
+        function nextQuestion() {
+            if (currentIndex < activeQuestions.length - 1) {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // MOSTRAR RESULTADOS FINALES
+        function showResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const resultsScreen = document.getElementById('results-screen');
+            resultsScreen.classList.remove('hidden');
+
+            const total = activeQuestions.length;
+            let activeScore = 0;
+            activeQuestions.forEach(q => {
+                if (userAnswers[q.id - 1] === q.correct) activeScore++;
+            });
+
+            const percentage = Math.round((activeScore / total) * 100);
+
+            document.getElementById('final-score').innerText = `${activeScore} / ${total}`;
+            document.getElementById('score-percentage').innerText = `${percentage}% de aciertos alcanzados`;
+
+            const msgElement = document.getElementById('result-message');
+            if (percentage >= 90) {
+                msgElement.innerHTML = "🌟 <strong>¡Eres una Súper Guardiana de la Naturaleza!</strong><br>Lograste un puntaje impresionante. Conoces perfectamente las plantas, los animales y el medio ambiente de Colombia.";
+            } else if (percentage >= 70) {
+                msgElement.innerHTML = "🌿 <strong>¡Muy buen trabajo, Exploradora!</strong><br>Demostraste un gran conocimiento sobre las Ciencias Naturales. Repasa algunos detalles y obtendrás la máxima nota.";
+            } else {
+                msgElement.innerHTML = "🌱 <strong>¡Buen intento de aprendizaje!</strong><br>Leíste datos muy interesantes. Vuelve a repasar los textos 'Lee y aprende' y pronto te volverás una experta.";
+            }
+        }
+
+        // REINICIAR
+        function restartQuiz() {
+            score = 0;
+            currentIndex = 0;
+            userAnswers = new Array(questionsData.length).fill(null);
+            document.getElementById('score-display').innerText = `0 / ${questionsData.length}`;
+            document.getElementById('results-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            renderQuestion();
+        }
+    </script>
+</body>
+</html>
