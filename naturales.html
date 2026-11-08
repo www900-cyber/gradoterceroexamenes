@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen de Ciencias Naturales - Grado Tercero</title>
+<style>
+:root{--green:#23834b;--dark:#174d32;--mint:#eaf7ee;--yellow:#fff3c4;--ink:#24332b;--line:#d8e7dc}
+*{box-sizing:border-box}body{margin:0;background:#f3f8f4;color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.5}
+header{background:linear-gradient(120deg,#17683b,#39a765);color:white;padding:28px 18px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.3rem)}header p{margin:4px}
+main{max-width:980px;margin:22px auto;padding:0 14px 40px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0;box-shadow:0 4px 14px #174d3210}
+h2{color:var(--dark);margin-top:0;font-size:1.3rem}
+.intro{background:var(--yellow);border-color:#f0df9c}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+label{font-weight:bold;display:block;margin-bottom:5px}input[type=text]{width:100%;padding:12px;border:1px solid #b8cdbd;border-radius:9px;font-size:1rem}
+.visual{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;background:#f1faf3;border-radius:12px;padding:14px;margin:12px 0}
+.visual svg{width:min(100%,270px);height:auto;max-height:180px}.emoji{font-size:3.3rem}
+.reading{background:#f7fbff;border-left:5px solid #68a7d9;padding:14px 17px;border-radius:8px;margin:12px 0}
+.question{padding:15px 0;border-bottom:1px solid var(--line)}.question:last-child{border:0}
+.qtitle{font-weight:bold;margin-bottom:8px}.qnum{color:var(--green);font-weight:bold}
+.options{display:grid;gap:7px}.option{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;border:1px solid #dce9df;border-radius:9px;cursor:pointer;background:#fff}
+.option:hover{background:#f3faf5}.option input{margin-top:4px;accent-color:var(--green)}
+button{border:0;border-radius:10px;padding:13px 20px;font-size:1rem;font-weight:bold;cursor:pointer}
+.primary{background:var(--green);color:white}.secondary{background:#e8f2eb;color:var(--dark)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+#result{display:none}.score{font-size:2rem;color:var(--green);font-weight:bold}.review-item{padding:10px;border-radius:9px;margin:8px 0;background:#f6f8f6}.correct{border-left:5px solid #2c9b59}.wrong{border-left:5px solid #d65c50}
+.small{font-size:.9rem;color:#53665a}
+footer{text-align:center;color:#607267;padding:18px}
+@media print{body{background:white}.card{box-shadow:none;break-inside:avoid}header{background:#23834b!important;print-color-adjust:exact}.actions,#result{display:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div style="font-size:2.5rem">🌱 🐝 🌎 🦋</div>
+  <h1>EXAMEN DE CIENCIAS NATURALES</h1>
+  <p>Grado tercero de primaria · Colombia</p>
+  <p>Las relaciones entre los seres vivos y el medio ambiente</p>
+</header>
+<main>
+<section class="card intro">
+<h2>¡Hola, exploradora de la naturaleza! 🌼</h2>
+<p>Lee con atención cada pregunta y marca <b>una sola respuesta</b>. Encontrarás preguntas de selección múltiple, lecturas cortas y verdadero o falso.</p>
+<p>Son <b>50 preguntas</b>. Cada respuesta correcta vale 1 punto. ¡Tú puedes!</p>
+<div class="fields">
+<div><label for="student">Nombre de la estudiante</label><input id="student" type="text" placeholder="Escribe tu nombre"></div>
+<div><label for="grade">Grado</label><input id="grade" type="text" value="3.º de primaria"></div>
+</div>
+</section>
+
+<section class="card">
+<h2>🌳 Parte 1. Observa y aprende</h2>
+<div class="visual">
+<svg viewBox="0 0 300 170" role="img" aria-label="Árbol, sol, agua, flores y animales">
+<circle cx="255" cy="28" r="19" fill="#ffd34e"/><g stroke="#f2b72d" stroke-width="3"><path d="M255 2v-8M255 62v-8M229 28h-8M289 28h-8M237 10l-6-6M279 52l-6-6M279 10l6-6"/></g>
+<path d="M0 140 Q70 125 140 142 T300 138V170H0" fill="#8acb75"/><rect x="83" y="75" width="20" height="70" rx="5" fill="#95613b"/><circle cx="93" cy="57" r="36" fill="#319653"/><circle cx="65" cy="70" r="22" fill="#43ad61"/><circle cx="119" cy="72" r="24" fill="#43ad61"/>
+<path d="M190 144q10-30 20 0" fill="none" stroke="#23834b" stroke-width="4"/><circle cx="200" cy="116" r="12" fill="#ff77a8"/><circle cx="200" cy="116" r="4" fill="#ffd34e"/>
+<path d="M220 148q15-25 30 0" fill="none" stroke="#23834b" stroke-width="4"/><circle cx="235" cy="126" r="10" fill="#a58be8"/>
+<path d="M15 153q25-16 50 0" stroke="#4b9ed1" stroke-width="5" fill="none"/><text x="12" y="125" font-size="12" fill="#236c9a">Agua</text>
+<text x="73" y="165" font-size="11" fill="#174d32">Plantas</text>
+</svg>
+<div><div class="emoji">🐦 🐛 🐇</div><b>En un ecosistema</b><br>Los seres vivos se relacionan entre sí y con elementos como el agua, el aire, la luz y el suelo.</div>
+</div>
+<div id="q1"></div>
+</section>
+
+<section class="card">
+<h2>📖 Parte 2. Comprensión lectora: la visita de la abeja</h2>
+<div class="reading"><b>Lee el texto:</b><br>En el jardín de Sara crecen muchas flores. Cada mañana, una abeja visita las flores para recoger néctar, que le sirve de alimento. Mientras se mueve de una flor a otra, lleva polen en su cuerpo y ayuda a que las plantas formen semillas. La abeja consigue alimento y la planta recibe ayuda para reproducirse. Las dos se benefician.</div>
+<div class="visual"><div class="emoji">🐝</div><div class="emoji">🌻 🌼 🌷</div><div><b>La abeja y la flor</b><br>Ambas obtienen un beneficio.</div></div>
+<div id="q2"></div>
+</section>
+
+<section class="card">
+<h2>🐆 Parte 3. Comprensión lectora: la vida en el bosque</h2>
+<div class="reading"><b>Lee el texto:</b><br>En un bosque colombiano viven varios venados de la misma especie. Ellos buscan alimento y pueden avisarse cuando sienten peligro. Cerca de allí, un jaguar observa a un venado para alimentarse. También hay árboles, piedras, agua y luz solar. Los árboles necesitan agua y luz para fabricar su propio alimento. Si varios venados buscan las mismas plantas y hay poca comida, pueden competir por ella.</div>
+<div class="visual"><div class="emoji">🦌 🐆 🌳</div><div><b>En el bosque</b><br>Hay relaciones entre animales, plantas y elementos no vivos.</div></div>
+<div id="q3"></div>
+</section>
+
+<section class="card">
+<h2>🌿 Parte 4. Factores bióticos y abióticos</h2>
+<div class="visual"><div><div class="emoji">🌱 🐜 🐟 🐸</div><b>Factores bióticos</b><br>Son los seres vivos.</div><div style="font-size:2rem">↔</div><div><div class="emoji">☀️ 💧 🪨 🌬️</div><b>Factores abióticos</b><br>Son los elementos sin vida.</div></div>
+<div id="q4"></div>
+</section>
+
+<section class="card">
+<h2>💧 Parte 5. ¿Por qué las plantas necesitan agua y luz solar?</h2>
+<div class="visual">
+<svg viewBox="0 0 300 170" role="img" aria-label="Planta recibiendo luz solar y agua">
+<circle cx="245" cy="28" r="20" fill="#ffd34e"/><path d="M245 0v-8M245 64v-8M217 28h-8M281 28h-8" stroke="#e5aa24" stroke-width="3"/>
+<path d="M145 145V70" stroke="#258448" stroke-width="7" stroke-linecap="round"/><path d="M145 95Q90 48 78 83Q100 116 145 95" fill="#48ad61"/><path d="M145 83Q170 36 207 55Q198 88 145 83" fill="#319653"/>
+<path d="M100 145q45-12 90 0" stroke="#9a663d" stroke-width="16" stroke-linecap="round"/><path d="M45 30q-10 18 0 28q10-10 0-28" fill="#56b8ed"/><path d="M45 60v20" stroke="#56b8ed" stroke-width="3"/>
+<path d="M220 48L178 65" stroke="#e7b42b" stroke-width="3" stroke-dasharray="5 4"/><text x="15" y="105" font-size="12" fill="#2676a0">Agua</text><text x="213" y="87" font-size="12" fill="#9b7116">Luz</text>
+</svg>
+<div><b>La planta fabrica su alimento</b><br>Usa agua, luz solar y aire para realizar la fotosíntesis.</div></div>
+<div id="q5"></div>
+</section>
+
+<section class="card">
+<h2>🦋 Parte 6. Verdadero o falso</h2>
+<p>Marca si cada afirmación es verdadera o falsa.</p>
+<div id="q6"></div>
+</section>
+
+<div class="actions">
+<button class="primary" onclick="gradeExam()">Calificar examen</button>
+<button class="secondary" onclick="window.print()">Imprimir examen</button>
+<button class="secondary" onclick="resetExam()">Borrar respuestas</button>
+</div>
+
+<section class="card" id="result" aria-live="polite">
+<h2>🏆 Resultado del examen</h2>
+<div class="score" id="score"></div>
+<p id="message"></p>
+<p id="details"></p>
+<div id="review"></div>
+<button class="secondary" onclick="window.print()">Imprimir resultado</button>
+</section>
+</main>
+<footer>Aprender sobre la naturaleza nos ayuda a cuidarla. 💚</footer>
+<script>
+const groups = [
+{target:'q1', qs:[
+['¿Qué estudian las ciencias naturales?', ['Los seres vivos y la naturaleza','Solo los números','Los medios de transporte'],0,'mc'],
+['¿Qué es una relación intraespecífica?', ['La relación entre seres vivos de la misma especie','La relación entre un animal y una roca','La relación entre especies diferentes'],0,'mc'],
+['¿Cuál es un ejemplo de relación intraespecífica?', ['Dos hormigas de la misma especie trabajan juntas','Una abeja visita una flor','Un jaguar caza un venado'],0,'mc'],
+['¿Qué es una relación interespecífica?', ['La relación entre individuos de especies diferentes','La relación entre dos animales de la misma especie','La relación entre el agua y una piedra'],0,'mc'],
+['Dos aves de especies diferentes comparten un árbol. ¿Su relación puede ser interespecífica?', ['Sí, porque son de especies diferentes','No, porque las dos vuelan','No, porque están en un árbol'],0,'mc'],
+['¿Cuál situación muestra cooperación?', ['Varias hormigas llevan juntas un alimento','Un jaguar captura un venado','Dos plantas compiten por luz'],0,'mc'],
+['¿Qué significa mutualismo?', ['Dos seres vivos se benefician','Un ser vivo siempre sale perjudicado','Un animal se come una planta'],0,'mc'],
+['¿Cuál es un ejemplo de mutualismo?', ['La abeja obtiene néctar y ayuda a la flor','El jaguar caza al venado','Una pulga vive sobre un perro'],0,'mc'],
+['En la depredación, ¿qué ocurre?', ['Un ser vivo caza a otro para alimentarse','Dos animales se ayudan','Los dos seres vivos fabrican alimento'],0,'mc'],
+['¿Cuál es un ejemplo de depredación?', ['Un búho captura un ratón','Una abeja visita una flor','Dos venados comen hierba cerca'],0,'mc']
+]},
+{target:'q2', qs:[
+['¿Para qué visita la abeja las flores?', ['Para recoger néctar y alimentarse','Para dormir dentro de ellas','Para quitarles las raíces'],0,'mc'],
+['¿Cómo ayuda la abeja a la planta?', ['Transporta polen y favorece la formación de semillas','Se come todas sus hojas','Le quita el agua'],0,'mc'],
+['¿Qué tipo de relación existe entre la abeja y la flor?', ['Mutualismo','Depredación','Parasitismo'],0,'mc'],
+['¿Por qué se benefician los dos seres vivos?', ['La abeja obtiene alimento y la planta recibe ayuda para reproducirse','La flor se come a la abeja','La abeja impide que la planta crezca'],0,'mc'],
+['La abeja y la flor pertenecen a especies diferentes. Su relación es interespecífica.', ['Verdadero','Falso'],0,'tf']
+]},
+{target:'q3', qs:[
+['Los venados del texto son de la misma especie. Cuando se relacionan entre ellos, ¿qué tipo de relación es?', ['Intraespecífica','Interespecífica','Abiótica'],0,'mc'],
+['¿Qué hacen los venados cuando sienten peligro?', ['Pueden avisarse entre ellos','Se convierten en plantas','Dejan de necesitar agua'],0,'mc'],
+['¿Qué relación hay entre el jaguar y el venado cuando el jaguar lo caza?', ['Depredación','Mutualismo','Cooperación'],0,'mc'],
+['Si hay poca comida y varios venados buscan las mismas plantas, ¿qué puede ocurrir?', ['Competencia','Mutualismo','Parasitismo'],0,'mc'],
+['¿Cuál elemento mencionado en el texto no tiene vida?', ['Las piedras','Los venados','Los árboles'],0,'mc'],
+['¿Por qué los árboles necesitan agua y luz solar?', ['Para fabricar su alimento y crecer','Para cazar animales','Para caminar por el bosque'],0,'mc'],
+['El jaguar y el venado son de especies diferentes.', ['Verdadero','Falso'],0,'tf']
+]},
+{target:'q4', qs:[
+['¿Qué son los factores bióticos?', ['Los seres vivos de un lugar','Los elementos sin vida','Solo la luz del Sol'],0,'mc'],
+['¿Cuál es un factor biótico?', ['Un árbol','Una piedra','El agua'],0,'mc'],
+['¿Cuál es un factor abiótico?', ['El aire','Una mariposa','Un pez'],0,'mc'],
+['¿Cuál grupo contiene solo factores bióticos?', ['Perro, árbol y hongo','Agua, aire y suelo','Sol, roca y viento'],0,'mc'],
+['¿Cuál grupo contiene solo factores abióticos?', ['Luz solar, agua y temperatura','Gato, pasto y flor','Pájaro, insecto y árbol'],0,'mc'],
+['¿El suelo puede ser importante para los seres vivos?', ['Sí, porque ayuda a las plantas a crecer y sirve de hogar a organismos','No, porque ningún ser vivo lo necesita','Solo sirve para los peces'],0,'mc'],
+['Los animales y las plantas son factores bióticos.', ['Verdadero','Falso'],0,'tf'],
+['El agua, el aire y la luz solar son factores abióticos.', ['Verdadero','Falso'],0,'tf']
+]},
+{target:'q5', qs:[
+['¿Para qué utilizan las plantas la luz solar?', ['Para realizar la fotosíntesis y fabricar su alimento','Para poder correr','Para buscar animales'],0,'mc'],
+['¿Qué función cumple el agua en las plantas?', ['Ayuda a transportar sustancias y a mantenerlas saludables','Hace que puedan caminar','Reemplaza por completo la luz'],0,'mc'],
+['¿Qué puede pasarle a una planta si no recibe suficiente agua?', ['Puede marchitarse','Puede convertirse en un animal','Puede producir luz'],0,'mc'],
+['¿Qué puede pasar si una planta permanece mucho tiempo sin luz?', ['Puede crecer débil y no fabricar bien su alimento','Puede fabricar alimento más rápido siempre','No le ocurre nada'],0,'mc'],
+['¿Cómo se llama el proceso por el que las plantas fabrican su alimento usando luz?', ['Fotosíntesis','Depredación','Parasitismo'],0,'mc'],
+['Las plantas necesitan agua y luz solar para crecer sanas.', ['Verdadero','Falso'],0,'tf'],
+['Las plantas obtienen toda su comida cazando insectos y animales.', ['Verdadero','Falso'],0,'tf']
+]},
+{target:'q6', qs:[
+['En el parasitismo, un ser vivo se beneficia y el otro resulta perjudicado.', ['Verdadero','Falso'],0,'tf'],
+['Una pulga que se alimenta de la sangre de un perro es un ejemplo de parasitismo.', ['Verdadero','Falso'],0,'tf'],
+['En la competencia, dos seres vivos pueden necesitar el mismo alimento o espacio.', ['Verdadero','Falso'],0,'tf'],
+['La cooperación ocurre cuando los seres vivos se ayudan para lograr algo.', ['Verdadero','Falso'],0,'tf'],
+['En el mutualismo, los dos organismos se benefician.', ['Verdadero','Falso'],0,'tf'],
+['En la depredación, el animal cazador se alimenta de otro ser vivo.', ['Verdadero','Falso'],0,'tf'],
+['Una relación intraespecífica sucede entre individuos de especies diferentes.', ['Verdadero','Falso'],1,'tf'],
+['Una relación interespecífica sucede entre individuos de especies diferentes.', ['Verdadero','Falso'],0,'tf'],
+['El Sol, el agua y el aire son seres vivos.', ['Verdadero','Falso'],1,'tf'],
+['Los hongos, las plantas y los animales son factores bióticos.', ['Verdadero','Falso'],0,'tf'],
+['Una planta puede vivir y fabricar su alimento sin agua para siempre.', ['Verdadero','Falso'],1,'tf'],
+['Las raíces ayudan a la planta a absorber agua del suelo.', ['Verdadero','Falso'],0,'tf'],
+['El agua y la luz solar son importantes para el crecimiento de muchas plantas.', ['Verdadero','Falso'],0,'tf']
+]}
+];
+let allQuestions=[];
+function render(){
+ let n=0;
+ groups.forEach(g=>{
+  const el=document.getElementById(g.target);
+  g.qs.forEach(q=>{
+   n++; allQuestions.push({...q,num:n});
+   const div=document.createElement('div');div.className='question';div.id='question-'+n;
+   const title=document.createElement('div');title.className='qtitle';title.innerHTML=`<span class="qnum">Pregunta ${n}.</span> ${q[0]}`;div.appendChild(title);
+   const opts=document.createElement('div');opts.className='options';
+   q[1].forEach((o,i)=>{
+    const lab=document.createElement('label');lab.className='option';
+    lab.innerHTML=`<input type="radio" name="q${n}" value="${i}"><span>${String.fromCharCode(65+i)}. ${o}</span>`;
+    opts.appendChild(lab);
+   });
+   div.appendChild(opts);el.appendChild(div);
+  });
+ });
+}
+function gradeExam(){
+ let score=0,answered=0,review='';
+ allQuestions.forEach(q=>{
+  const chosen=document.querySelector(`input[name="q${q.num}"]:checked`);
+  const ok=chosen && Number(chosen.value)===q[2];
+  if(chosen)answered++;
+  if(ok)score++;
+  const correct=q[1][q[2]];
+  review+=`<div class="review-item ${ok?'correct':'wrong'}"><b>${q.num}. ${ok?'¡Correcto!':'Revisa esta respuesta.'}</b> ${q[0]}<br><span class="small">Respuesta correcta: ${String.fromCharCode(65+q[2])}. ${correct}</span></div>`;
+ });
+ const pct=Math.round(score/allQuestions.length*100);
+ document.getElementById('score').textContent=`${score} / 50 puntos (${pct}%)`;
+ document.getElementById('message').textContent=pct>=90?'¡Excelente trabajo! Eres una gran exploradora de la naturaleza. 🌟':pct>=70?'¡Muy bien! Sigue aprendiendo y cuidando la naturaleza. 🌻':pct>=50?'Vas por buen camino. Repasa los temas y vuelve a intentarlo. 💪':'¡Ánimo! Leer de nuevo y practicar te ayudará a aprender. 🌱';
+ document.getElementById('details').textContent=`Respondiste ${answered} de 50 preguntas. Las respuestas sin marcar cuentan como incorrectas.`;
+ document.getElementById('review').innerHTML=review;
+ document.getElementById('result').style.display='block';
+ document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+function resetExam(){
+ if(!confirm('¿Quieres borrar todas las respuestas y comenzar de nuevo?'))return;
+ document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);
+ document.getElementById('result').style.display='none';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+render();
+</script>
+</body>
+</html>
