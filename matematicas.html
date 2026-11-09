@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Interactivo de Matemáticas - 5° Grado</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        math: {
+                            purple: '#6d28d9',
+                            lightPurple: '#f5f3ff',
+                            accent: '#8b5cf6',
+                            blue: '#2563eb',
+                            green: '#059669',
+                            amber: '#d97706'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        h1, h2, h3, .font-fun {
+            font-family: 'Fredoka', cursive, sans-serif;
+        }
+
+        .custom-radio:checked + label {
+            border-color: #7c3aed;
+            background-color: #f5f3ff;
+            box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.1);
+        }
+
+        .custom-radio:checked + label .check-mark {
+            background-color: #7c3aed;
+            border-color: #7c3aed;
+            color: white;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen pb-16">
+
+    <!-- Header Banner -->
+    <header class="bg-gradient-to-r from-violet-900 via-purple-800 to-indigo-900 text-white py-8 px-4 shadow-lg no-print">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="p-3.5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-inner">
+                    <svg class="w-12 h-12 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-white">Evaluación de Matemáticas</h1>
+                    <p class="text-purple-200 text-sm md:text-base font-medium">Grado 5° | 5 Temas Fundamentales con Explicaciones en Video</p>
+                </div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-2xl text-center border border-white/20">
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-200 block">Total Preguntas</span>
+                <span class="text-3xl font-black text-amber-300 font-fun">50</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Student Info Card -->
+    <section class="max-w-5xl mx-auto mt-6 px-4 no-print">
+        <div class="bg-white rounded-2xl shadow-sm border border-purple-100 p-6">
+            <h2 class="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                Datos del Estudiante
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Nombre Completo</label>
+                    <input type="text" id="studentName" placeholder="Ej: Santiago Ramírez" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Grado / Grupo</label>
+                    <input type="text" id="studentGroup" value="5° A" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Fecha</label>
+                    <input type="date" id="examDate" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition font-medium">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sticky Progress and Timer Bar -->
+    <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-purple-100 shadow-sm py-3.5 px-4 mt-6 no-print">
+        <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 text-slate-700 font-semibold text-sm">
+                    <svg class="w-5 h-5 text-amber-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Tiempo: <span id="timer" class="font-mono text-purple-700 font-bold text-base">00:00</span></span>
+                </div>
+                <div class="hidden sm:block h-4 w-px bg-slate-300"></div>
+                <div class="text-xs font-semibold text-slate-600">
+                    Respondidas: <span id="answeredCount" class="text-purple-600 font-bold">0</span> / 50
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="w-32 sm:w-44 bg-slate-200 rounded-full h-3 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-purple-500 to-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <button onclick="gradeExam()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-5 rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Calificar Examen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 mt-8 space-y-12">
+
+        <!-- Score Results Card -->
+        <section id="resultsCard" class="hidden bg-white rounded-3xl border-2 border-purple-500 p-8 shadow-2xl text-center transition-all duration-500">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+            </div>
+            <h2 class="text-3xl font-black text-slate-900 mb-2 font-fun">¡Resultados de la Evaluación!</h2>
+            <p id="resultStudentInfo" class="text-slate-600 font-medium mb-6"></p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 max-w-2xl mx-auto">
+                <div class="bg-purple-50 rounded-2xl p-4 border border-purple-100 shadow-sm">
+                    <span class="text-xs text-purple-700 font-bold uppercase block mb-1">Nota Final</span>
+                    <span id="finalScore" class="text-4xl font-black text-purple-600 font-fun">1.0</span>
+                    <span class="text-xs text-slate-500 block mt-1">Escala Colombiana 1.0 - 5.0</span>
+                </div>
+                <div class="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 shadow-sm">
+                    <span class="text-xs text-emerald-700 font-bold uppercase block mb-1">Aciertos</span>
+                    <span id="correctCount" class="text-4xl font-black text-emerald-600 font-fun">0</span>
+                    <span class="text-xs text-slate-500 block mt-1">de 50 preguntas</span>
+                </div>
+                <div class="bg-indigo-50 rounded-2xl p-4 border border-indigo-100 shadow-sm">
+                    <span class="text-xs text-indigo-700 font-bold uppercase block mb-1">Efectividad</span>
+                    <span id="percentageScore" class="text-4xl font-black text-indigo-600 font-fun">0%</span>
+                    <span class="text-xs text-slate-500 block mt-1">desempeño total</span>
+                </div>
+            </div>
+
+            <p id="feedbackMessage" class="text-lg font-bold text-slate-700 mb-6"></p>
+
+            <div class="flex flex-wrap justify-center gap-4 no-print">
+                <button onclick="window.print()" class="bg-slate-800 text-white font-bold py-3 px-6 rounded-xl hover:bg-slate-900 transition flex items-center gap-2 text-sm shadow-md">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Imprimir Informe de Resultados
+                </button>
+                <button onclick="resetExam()" class="bg-purple-100 text-purple-800 font-bold py-3 px-6 rounded-xl hover:bg-purple-200 transition flex items-center gap-2 text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Reiniciar Evaluación
+                </button>
+            </div>
+        </section>
+
+        <!-- EXAM CONTENT (MODULES & QUESTIONS) INJECTED DYNAMICALLY -->
+        <div id="examContainer" class="space-y-16"></div>
+
+    </main>
+
+    <footer class="mt-20 text-center text-slate-500 text-xs py-8 border-t border-slate-200 no-print">
+        <p class="font-medium">Examen de Matemáticas Interactivo para Grado 5° — Diseñado para el Aprendizaje Dinámico</p>
+    </footer>
+
+    <script>
+        // Set Default Date
+        document.getElementById('examDate').valueAsDate = new Date();
+
+        // Timer Logic
+        let secondsElapsed = 0;
+        const timerElement = document.getElementById('timer');
+        setInterval(() => {
+            secondsElapsed++;
+            const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+            const secs = (secondsElapsed % 60).toString().padStart(2, '0');
+            timerElement.textContent = `${mins}:${secs}`;
+        }, 1000);
+
+        // Vector SVG Graphics Generator for Math Questions
+        function getMathSVG(type, detail) {
+            switch(type) {
+                case 'division':
+                    return `<svg class="w-24 h-24 text-purple-600" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="16" fill="#f5f3ff"/>
+                        <text x="25" y="45" font-family="Fredoka" font-size="22" font-weight="bold" fill="#6d28d9">${detail || '240'}</text>
+                        <path d="M55 25 V60 H85" stroke="#7c3aed" stroke-width="3.5" stroke-linecap="round"/>
+                        <text x="63" y="45" font-family="Fredoka" font-size="22" font-weight="bold" fill="#059669">12</text>
+                        <text x="63" y="80" font-family="Fredoka" font-size="20" font-weight="bold" fill="#d97706">20</text>
+                    </svg>`;
+                case 'primo':
+                    return `<svg class="w-24 h-24 text-amber-500" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="16" fill="#fffbeb"/>
+                        <circle cx="50" cy="50" r="32" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/>
+                        <text x="50" y="58" font-family="Fredoka" font-size="28" font-weight="bold" fill="#b45309" text-anchor="middle">${detail || '7'}</text>
+                        <path d="M25 25 L35 35 M75 25 L65 35 M50 12 V20" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+                    </svg>`;
+                case 'compuesto':
+                    return `<svg class="w-24 h-24 text-indigo-500" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="16" fill="#eef2ff"/>
+                        <rect x="25" y="25" width="50" height="50" rx="12" fill="#c7d2fe" stroke="#6366f1" stroke-width="3"/>
+                        <text x="50" y="58" font-family="Fredoka" font-size="26" font-weight="bold" fill="#3730a3" text-anchor="middle">${detail || '12'}</text>
+                    </svg>`;
+                case 'fraccion_bar':
+                    return `<svg class="w-28 h-20 text-purple-600" viewBox="0 0 120 70" fill="none">
+                        <rect width="120" height="70" rx="12" fill="#f8fafc"/>
+                        <rect x="10" y="15" width="100" height="40" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2"/>
+                        <rect x="10" y="15" width="60" height="40" rx="6" fill="#8b5cf6"/>
+                        <path d="M35 15 V55 M60 15 V55 M85 15 V55" stroke="#ffffff" stroke-width="2"/>
+                    </svg>`;
+                case 'fraccion_pie':
+                    return `<svg class="w-24 h-24 text-emerald-500" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="16" fill="#ecfdf5"/>
+                        <circle cx="50" cy="50" r="34" fill="#10b981"/>
+                        <path d="M50 50 L50 16 A34 34 0 0 1 84 50 Z" fill="#a7f3d0" stroke="#047857" stroke-width="2"/>
+                        <path d="M50 50 L16 50 A34 34 0 0 1 50 16 Z" fill="#a7f3d0" stroke="#047857" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="34" stroke="#047857" stroke-width="3" fill="none"/>
+                        <path d="M50 16 V84 M16 50 H84" stroke="#047857" stroke-width="2"/>
+                    </svg>`;
+                case 'suma_fraccion':
+                    return `<svg class="w-28 h-20 text-blue-500" viewBox="0 0 120 70" fill="none">
+                        <rect width="120" height="70" rx="12" fill="#eff6ff"/>
+                        <text x="25" y="42" font-family="Fredoka" font-size="20" font-weight="bold" fill="#1d4ed8">2/5</text>
+                        <text x="55" y="42" font-family="Fredoka" font-size="22" font-weight="bold" fill="#3b82f6">+</text>
+                        <text x="75" y="42" font-family="Fredoka" font-size="20" font-weight="bold" fill="#1d4ed8">1/5</text>
+                    </svg>`;
+                case 'resta_fraccion':
+                    return `<svg class="w-28 h-20 text-rose-500" viewBox="0 0 120 70" fill="none">
+                        <rect width="120" height="70" rx="12" fill="#fff1f2"/>
+                        <text x="25" y="42" font-family="Fredoka" font-size="20" font-weight="bold" fill="#be123c">5/8</text>
+                        <text x="55" y="42" font-family="Fredoka" font-size="22" font-weight="bold" fill="#f43f5e">-</text>
+                        <text x="75" y="42" font-family="Fredoka" font-size="20" font-weight="bold" fill="#be123c">2/8</text>
+                    </svg>`;
+                case 'plano':
+                    return `<svg class="w-24 h-24 text-slate-700" viewBox="0 0 100 100" fill="none">
+                        <rect width="100" height="100" rx="16" fill="#f8fafc"/>
+                        <!-- Grid lines -->
+                        <path d="M20 20 H80 M20 40 H80 M20 60 H80 M20 80 H80" stroke="#cbd5e1" stroke-width="1.5"/>
+                        <path d="M20 20 V80 M40 20 V80 M60 20 V80 M80 20 V80" stroke="#cbd5e1" stroke-width="1.5"/>
+                        <!-- Axis -->
+                        <path d="M20 80 H85 M20 80 V15" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
+                        <!-- Point A (3,2) -> (60,40) inverted Y -->
+                        <circle cx="60" cy="40" r="5" fill="#ef4444"/>
+                        <text x="65" y="38" font-family="Inter" font-size="12" font-weight="bold" fill="#b91c1c">P(3,2)</text>
+                    </svg>`;
+                default:
+                    return `<svg class="w-24 h-24 text-purple-600" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="16" fill="#f5f3ff"/><text x="50" y="55" font-family="Fredoka" font-size="32" font-weight="bold" fill="#7c3aed" text-anchor="middle">÷</text></svg>`;
+            }
+        }
+
+        // Modules & 50 Questions Dataset
+        const mathModules = [
+            {
+                title: "Tema 1: Divisiones de Números Naturales",
+                text: "La división es la operación matemática que nos permite repartir una cantidad en partes iguales. Sus elementos principales son: el **Dividendo** (cantidad a repartir), el **Divisor** (partes en que dividimos), el **Cociente** (resultado obtenido) y el **Resto o Residuo** (lo que sobra). Si el residuo es cero (0), la división es **exacta**; si el residuo es mayor que cero, es **inexacta**.",
+                videoEmbed: "https://www.youtube.com/embed/g1zna75Ph-c",
+                questions: [
+                    {
+                        id: 1, type: "mc", svg: "division", svgDetail: "45 ÷ 5",
+                        question: "Si repartes 45 manzanas por igual entre 5 niños, ¿cuántas manzanas recibe cada niño?",
+                        options: ["7 manzanas", "8 manzanas", "9 manzanas", "10 manzanas"],
+                        answer: 2,
+                        explanation: "Al dividir 45 ÷ 5 obtenemos 9 exactos, porque 9 x 5 = 45."
+                    },
+                    {
+                        id: 2, type: "mc", svg: "division", svgDetail: "Dividendo",
+                        question: "¿Cómo se llama la cantidad total que se va a repartir en una división?",
+                        options: ["Divisor", "Resto o Residuo", "Dividendo", "Cociente"],
+                        answer: 2,
+                        explanation: "El Dividendo es la cantidad inicial que dividimos o repartimos."
+                    },
+                    {
+                        id: 3, type: "mc", svg: "division", svgDetail: "128 ÷ 4",
+                        question: "Resuelve la división: 128 ÷ 4 =",
+                        options: ["30", "32", "34", "36"],
+                        answer: 1,
+                        explanation: "128 ÷ 4 = 32. (30 x 4 = 120, y 2 x 4 = 8; 120 + 8 = 128)."
+                    },
+                    {
+                        id: 4, type: "mc", svg: "division", svgDetail: "Residuo",
+                        question: "En una división inexacta, el residuo o resto siempre debe ser:",
+                        options: ["Mayor que el divisor", "Menor que el divisor", "Igual al dividendo", "Igual a diez"],
+                        answer: 1,
+                        explanation: "El residuo siempre debe ser estricta y obligatoriamente menor que el divisor."
+                    },
+                    {
+                        id: 5, type: "mc", svg: "division", svgDetail: "150 ÷ 10",
+                        question: "¿Cuál es el cociente al dividir 150 entre 10?",
+                        options: ["15", "105", "1500", "5"],
+                        answer: 0,
+                        explanation: "Dividir entre 10 equivale a quitar un cero: 150 ÷ 10 = 15."
+                    },
+                    {
+                        id: 6, type: "tf", svg: "division", svgDetail: "Exacta",
+                        question: "Una división se considera EXACTA cuando su residuo o sobrante es cero (0).",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Cuando el residuo es 0, no sobra nada y la división es exacta."
+                    },
+                    {
+                        id: 7, type: "tf", svg: "division", svgDetail: "73 ÷ 8",
+                        question: "Al dividir 73 entre 8 el cociente es 9 y el residuo es 1.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 8 x 9 = 72. Para llegar a 73 nos sobra 1 (residuo = 1)."
+                    },
+                    {
+                        id: 8, type: "tf", svg: "division", svgDetail: "Comprobación",
+                        question: "Para comprobar si una división es correcta se multiplica: (Divisor × Cociente) + Residuo.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Esta prueba fundamental debe dar como resultado exactamente el Dividendo."
+                    },
+                    {
+                        id: 9, type: "tf", svg: "division", svgDetail: "÷ 0",
+                        question: "En las matemáticas es perfectamente posible y válido dividir cualquier número natural entre cero (0).",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. La división entre cero (0) no está definida en matemáticas."
+                    },
+                    {
+                        id: 10, type: "tf", svg: "division", svgDetail: "500 ÷ 25",
+                        question: "El resultado (cociente) de la división 500 ÷ 25 es igual a 20.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 25 x 20 = 500."
+                    }
+                ]
+            },
+            {
+                title: "Tema 2: Números Primos y Compuestos",
+                text: "Los **números primos** son aquellos números naturales mayores que 1 que tienen únicamente **dos divisores**: el 1 y ellos mismos (por ejemplo: 2, 3, 5, 7, 11). Los **números compuestos** son aquellos que tienen **más de dos divisores** (por ejemplo: 4, 6, 8, 9, 10). ¡Ojo! El número 1 no se considera ni primo ni compuesto.",
+                videoEmbed: "https://www.youtube.com/embed/0rM2i0Qd300",
+                questions: [
+                    {
+                        id: 11, type: "mc", svg: "primo", svgDetail: "Primo",
+                        question: "¿Qué es un número primo?",
+                        options: [
+                            "Un número que termina en par",
+                            "Un número mayor que 1 que solo se puede dividir entre 1 y sí mismo",
+                            "Un número que tiene más de cuatro divisores",
+                            "Cualquier número terminado en cinco"
+                        ],
+                        answer: 1,
+                        explanation: "Los números primos se caracterizan por poseer exactamente 2 divisores enteros."
+                    },
+                    {
+                        id: 12, type: "mc", svg: "primo", svgDetail: "2",
+                        question: "¿Cuál es el ÚNICO número que es par y al mismo tiempo es primo?",
+                        options: ["0", "2", "4", "6"],
+                        answer: 1,
+                        explanation: "El 2 es el único número par que es primo, ya que solo es divisible entre 1 y 2."
+                    },
+                    {
+                        id: 13, type: "mc", svg: "compuesto", svgDetail: "Divisores",
+                        question: "¿Cuáles son todos los divisores del número 6?",
+                        options: ["1 y 6", "1, 2 y 6", "1, 2, 3 y 6", "2 y 3"],
+                        answer: 2,
+                        explanation: "6 se puede dividir de forma exacta entre 1, 2, 3 y 6 (por eso es un número compuesto)."
+                    },
+                    {
+                        id: 14, type: "mc", svg: "compuesto", svgDetail: "15",
+                        question: "¿Por qué el número 15 es un número COMPUESTO?",
+                        options: [
+                            "Porque es impar",
+                            "Porque tiene más de dos divisores (1, 3, 5, 15)",
+                            "Porque se puede dividir entre 2",
+                            "Porque es mayor que 10"
+                        ],
+                        answer: 1,
+                        explanation: "El 15 posee 4 divisores (1, 3, 5 y 15), por lo tanto es un número compuesto."
+                    },
+                    {
+                        id: 15, type: "mc", svg: "primo", svgDetail: "11",
+                        question: "¿Cuál de los siguientes grupos contiene SOLO números primos?",
+                        options: ["2, 3, 5, 7, 11", "2, 4, 6, 8, 10", "1, 3, 5, 9, 15", "5, 10, 15, 20"],
+                        answer: 0,
+                        explanation: "2, 3, 5, 7 y 11 tienen únicamente dos divisores cada uno."
+                    },
+                    {
+                        id: 16, type: "tf", svg: "primo", svgDetail: "1",
+                        question: "El número 1 es considerado el primer número primo de las matemáticas.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. El número 1 no es ni primo ni compuesto porque solo tiene 1 divisor (él mismo)."
+                    },
+                    {
+                        id: 17, type: "tf", svg: "compuesto", svgDetail: "9",
+                        question: "El número 9 es un número primo porque es impar.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. El 9 es impar, pero es COMPUESTO porque se divide entre 1, 3 y 9."
+                    },
+                    {
+                        id: 18, type: "tf", svg: "primo", svgDetail: "13",
+                        question: "El número 13 es un número primo.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 13 solo se puede dividir entre 1 y 13."
+                    },
+                    {
+                        id: 19, type: "tf", svg: "compuesto", svgDetail: "20",
+                        question: "Todos los números terminados en cero (como 10, 20, 30) son números compuestos.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Todos son divisibles por 1, 2, 5, 10 y por sí mismos."
+                    },
+                    {
+                        id: 20, type: "tf", svg: "primo", svgDetail: "Infinitos",
+                        question: "Existen infinitos números primos en el conjunto de los números naturales.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Euclid demostró hace más de 2000 años que los números primos son infinitos."
+                    }
+                ]
+            },
+            {
+                title: "Tema 3: Fracciones y su Representación",
+                text: "Una **fracción** representa la parte de una unidad que ha sido dividida en partes iguales. Consta de dos términos: el **numerador** (número superior que indica cuántas partes tomamos) y el **denominador** (número inferior que indica en cuántas partes iguales se dividió el entero). Una fracción es **propia** si el numerador es menor que el denominador (ej. 3/4) e **impropia** si el numerador es mayor o igual (ej. 7/5).",
+                videoEmbed: "https://www.youtube.com/embed/c9cTIjBqFTw",
+                questions: [
+                    {
+                        id: 21, type: "mc", svg: "fraccion_pie", svgDetail: "",
+                        question: "En la fracción 3/8, ¿qué representa el número 8?",
+                        options: [
+                            "Las partes que tomamos o pintamos",
+                            "El total de partes iguales en que se dividió la unidad",
+                            "El resultado final",
+                            "El tipo de unidad"
+                        ],
+                        answer: 1,
+                        explanation: "El denominador (8) expresa las partes iguales en las que dividimos el entero."
+                    },
+                    {
+                        id: 22, type: "mc", svg: "fraccion_bar", svgDetail: "",
+                        question: "Si una barra se divide en 5 partes iguales y pintamos 3, ¿qué fracción representa?",
+                        options: ["5/3", "3/5", "3/8", "5/8"],
+                        answer: 1,
+                        explanation: "3 partes pintadas (numerador) de 5 partes en total (denominador) representa 3/5."
+                    },
+                    {
+                        id: 23, type: "mc", svg: "fraccion_bar", svgDetail: "",
+                        question: "¿Cómo se llama una fracción cuyo numerador es MENOR que el denominador (como 2/7)?",
+                        options: ["Fracción Impropia", "Fracción Propia", "Fracción Mixta", "Fracción Decimotercera"],
+                        answer: 1,
+                        explanation: "Las fracciones donde el numerador < denominador son llamadas fracciones propias."
+                    },
+                    {
+                        id: 24, type: "mc", svg: "fraccion_pie", svgDetail: "",
+                        question: "Si divides una pizza en 8 rebanadas iguales y te comes 8 rebanadas, ¿a qué equivale 8/8?",
+                        options: ["A medio entero", "A 1 unidad entera", "A 8 pizzas", "A cero"],
+                        answer: 1,
+                        explanation: "Cualquier fracción con igual numerador y denominador (8/8) representa 1 entero completo."
+                    },
+                    {
+                        id: 25, type: "mc", svg: "fraccion_bar", svgDetail: "",
+                        question: "¿Cuál de las siguientes fracciones es una FRACCIÓN IMPROPIA?",
+                        options: ["1/4", "3/5", "7/3", "2/9"],
+                        answer: 2,
+                        explanation: "7/3 es impropia porque el numerador (7) es mayor que el denominador (3)."
+                    },
+                    {
+                        id: 26, type: "tf", svg: "fraccion_bar", svgDetail: "",
+                        question: "En la fracción 4/9, el número 4 es el numerador.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. El número ubicado arriba de la barra fraccionaria se llama numerador."
+                    },
+                    {
+                        id: 27, type: "tf", svg: "fraccion_pie", svgDetail: "",
+                        question: "Las partes en que se divide un entero para formar una fracción pueden ser de diferentes tamaños.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. Por definición, las partes de una fracción deben ser estrictamente IGUALES."
+                    },
+                    {
+                        id: 28, type: "tf", svg: "fraccion_pie", svgDetail: "",
+                        question: "La fracción 1/2 es equivalente a 2/4.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Ambas representan exactamente la mitad de un entero."
+                    },
+                    {
+                        id: 29, type: "tf", svg: "fraccion_bar", svgDetail: "",
+                        question: "Una fracción impropia siempre es menor que un entero.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. Una fracción impropia es mayor o igual que 1 entero completo."
+                    },
+                    {
+                        id: 30, type: "tf", svg: "fraccion_pie", svgDetail: "",
+                        question: "La fracción 5/5 es exactamente igual a la unidad (1).",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 5 dividido entre 5 da como resultado 1."
+                    }
+                ]
+            },
+            {
+                title: "Tema 4: Adición y Sustracción de Fracciones Homogéneas",
+                text: "Dos o más fracciones son **homogéneas** cuando tienen el **mismo denominador**. Para sumar o restar fracciones homogéneas, simplemente **se suman o restan los numeradores** y **se conserva el mismo denominador** sin hacer ningún cambio en este último.",
+                videoEmbed: "https://www.youtube.com/embed/RkRI22TED88",
+                questions: [
+                    {
+                        id: 31, type: "mc", svg: "suma_fraccion", svgDetail: "",
+                        question: "Calcula el resultado de la suma: 2/7 + 3/7 =",
+                        options: ["5/14", "5/7", "6/7", "1/7"],
+                        answer: 1,
+                        explanation: "Sumamos los numeradores (2 + 3 = 5) y conservamos el mismo denominador 7: 5/7."
+                    },
+                    {
+                        id: 32, type: "mc", svg: "resta_fraccion", svgDetail: "",
+                        question: "Calcula el resultado de la resta: 8/10 - 3/10 =",
+                        options: ["5/0", "5/20", "5/10", "11/10"],
+                        answer: 2,
+                        explanation: "Restamos los numeradores (8 - 3 = 5) y se mantiene el denominador 10: 5/10."
+                    },
+                    {
+                        id: 33, type: "mc", svg: "suma_fraccion", svgDetail: "",
+                        question: "María comió 1/6 de pastel y su hermano comió 4/6 del mismo pastel. ¿Cuánto comieron entre los dos?",
+                        options: ["5/12 del pastel", "5/6 del pastel", "3/6 del pastel", "4/6 del pastel"],
+                        answer: 1,
+                        explanation: "1/6 + 4/6 = 5/6 del pastel."
+                    },
+                    {
+                        id: 34, type: "mc", svg: "resta_fraccion", svgDetail: "",
+                        question: "Si tienes 9/9 de un jugo y te tomas 4/9, ¿cuánto jugo te queda?",
+                        options: ["5/9", "5/0", "13/9", "4/9"],
+                        answer: 0,
+                        explanation: "9/9 - 4/9 = 5/9."
+                    },
+                    {
+                        id: 35, type: "mc", svg: "suma_fraccion", svgDetail: "",
+                        question: "¿Cuál es la regla para SUMAR fracciones con el mismo denominador (homogéneas)?",
+                        options: [
+                            "Sumar los numeradores y sumar los denominadores",
+                            "Sumar los numeradores y dejar el mismo denominador",
+                            "Restar los denominadores",
+                            "Multiplicar los numeradores"
+                        ],
+                        answer: 1,
+                        explanation: "En fracciones homogéneas solo se operan los numeradores; el denominador nunca se suma ni se resta."
+                    },
+                    {
+                        id: 36, type: "tf", svg: "suma_fraccion", svgDetail: "",
+                        question: "Al sumar 1/4 + 2/4 el resultado correcto es 3/8.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. Los denominadores NO se suman. El resultado correcto es 3/4."
+                    },
+                    {
+                        id: 37, type: "tf", svg: "resta_fraccion", svgDetail: "",
+                        question: "En la resta 7/12 - 2/12 se obtiene como resultado 5/12.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 7 - 2 = 5 conservando el denominador 12."
+                    },
+                    {
+                        id: 38, type: "tf", svg: "suma_fraccion", svgDetail: "",
+                        question: "Las fracciones 3/8 y 5/8 son fracciones homogéneas porque tienen el mismo denominador.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Tener igual denominador es la definición exacta de fracciones homogéneas."
+                    },
+                    {
+                        id: 39, type: "tf", svg: "suma_fraccion", svgDetail: "",
+                        question: "La suma 4/5 + 1/5 da como resultado 5/5, lo cual equivale a 1 entero.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 4/5 + 1/5 = 5/5 = 1."
+                    },
+                    {
+                        id: 40, type: "tf", svg: "resta_fraccion", svgDetail: "",
+                        question: "Al restar 6/6 - 6/6 el resultado final es cero (0).",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. 6/6 - 6/6 = 0/6 = 0."
+                    }
+                ]
+            },
+            {
+                title: "Tema 5: El Plano Cartesiano",
+                text: "El **plano cartesiano** se forma por la intersección de dos rectas numéricas perpendiculares: el **eje horizontal o eje X** (abscisas) y el **eje vertical o eje Y** (ordenadas). El punto donde se cruzan se llama **origen (0,0)**. Para ubicar un punto **(X, Y)**, primero avanzamos horizontalmente en el eje X y luego subimos verticalmente en el eje Y.",
+                videoEmbed: "https://www.youtube.com/embed/kzOzYY-T-50",
+                questions: [
+                    {
+                        id: 41, type: "mc", svg: "plano", svgDetail: "",
+                        question: "En un par ordenado (X, Y) como por ejemplo (4, 7), ¿cuál número se busca primero en el eje horizontal X?",
+                        options: ["El número 7", "El número 4", "Ambos al tiempo", "Ninguno"],
+                        answer: 1,
+                        explanation: "En la pareja ordenada (X, Y), el primer valor siempre corresponde al eje horizontal X."
+                    },
+                    {
+                        id: 42, type: "mc", svg: "plano", svgDetail: "",
+                        question: "¿Cómo se llama el eje HORIZONTAL del plano cartesiano?",
+                        options: ["Eje Y u Ordenadas", "Eje X o Abscisas", "Eje Central", "Eje Diagonal"],
+                        answer: 1,
+                        explanation: "El eje horizontal se denomina Eje X o Eje de las Abscisas."
+                    },
+                    {
+                        id: 43, type: "mc", svg: "plano", svgDetail: "",
+                        question: "¿Cómo se le conoce al punto de corte donde se cruzan los dos ejes con coordenadas (0,0)?",
+                        options: ["Punto Final", "Origen", "Esquina X", "Vértice Y"],
+                        answer: 1,
+                        explanation: "El punto (0,0) es el punto de partida denominado Origen."
+                    },
+                    {
+                        id: 44, type: "mc", svg: "plano", svgDetail: "",
+                        question: "Si sales del origen (0,0), caminas 3 unidades a la derecha y subes 5 unidades, ¿cuál es tu ubicación?",
+                        options: ["(5, 3)", "(3, 5)", "(8, 8)", "(3, 3)"],
+                        answer: 1,
+                        explanation: "3 en el eje horizontal X y 5 en el eje vertical Y corresponden a la coordenada (3, 5)."
+                    },
+                    {
+                        id: 45, type: "mc", svg: "plano", svgDetail: "",
+                        question: "¿Cómo se llama el eje VERTICAL en el plano cartesiano?",
+                        options: ["Eje X", "Eje Y u Ordenadas", "Eje Horizontal", "Eje Cero"],
+                        answer: 1,
+                        explanation: "El eje vertical que va hacia arriba se llama Eje Y o Eje de las Ordenadas."
+                    },
+                    {
+                        id: 46, type: "tf", svg: "plano", svgDetail: "",
+                        question: "Las coordenadas (2, 5) y (5, 2) representan exactamente la misma ubicación en el plano cartesiano.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. El orden importa: (2, 5) está en X=2, Y=5 mientras que (5, 2) está en X=5, Y=2."
+                    },
+                    {
+                        id: 47, type: "tf", svg: "plano", svgDetail: "",
+                        question: "Los dos ejes del plano cartesiano se cortan formando un ángulo recto de 90 grados.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Las dos rectas son perpendiculares, formando ángulos de 90°."
+                    },
+                    {
+                        id: 48, type: "tf", svg: "plano", svgDetail: "",
+                        question: "El punto (6, 0) se ubica justo sobre el eje horizontal X.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Al tener Y=0, no sube en la vertical y queda exactamente sobre el eje X."
+                    },
+                    {
+                        id: 49, type: "tf", svg: "plano", svgDetail: "",
+                        question: "El plano cartesiano debe su nombre al matemático y filósofo René Descartes.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 0,
+                        explanation: "Verdadero. Fue inventado por el pensador francés René Descartes."
+                    },
+                    {
+                        id: 50, type: "tf", svg: "plano", svgDetail: "",
+                        question: "Para ubicar el punto (0, 4), debes desplazarte 4 unidades a la derecha y 0 hacia arriba.",
+                        options: ["Verdadero", "Falso"],
+                        answer: 1,
+                        explanation: "Falso. Significa 0 a la derecha y subir 4 unidades en el eje vertical Y."
+                    }
+                ]
+            }
+        ];
+
+        // Build Entire UI with Videos and Questions
+        function renderExam() {
+            const container = document.getElementById('examContainer');
+            container.innerHTML = '';
+
+            mathModules.forEach((mod, modIdx) => {
+                // Section Box
+                const modSection = document.createElement('section');
+                modSection.className = "bg-white rounded-3xl border border-purple-100 p-6 md:p-8 shadow-sm space-y-8";
+
+                // Module Header & Video Section
+                modSection.innerHTML = `
+                    <div class="border-b-2 border-purple-500 pb-4">
+                        <span class="text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full uppercase tracking-wider">Módulo ${modIdx + 1}</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mt-2 font-fun">${mod.title}</h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-purple-50/70 p-6 rounded-2xl border border-purple-100">
+                        <div class="lg:col-span-6 space-y-3">
+                            <h3 class="text-lg font-bold text-purple-900 flex items-center gap-2">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Explicación Breve del Tema
+                            </h3>
+                            <p class="text-slate-700 leading-relaxed text-sm md:text-base font-medium">${mod.text}</p>
+                        </div>
+                        <div class="lg:col-span-6 w-full">
+                            <div class="relative w-full aspect-video rounded-2xl overflow-hidden shadow-md border-2 border-white">
+                                <iframe class="absolute top-0 left-0 w-full h-full" src="${mod.videoEmbed}" title="Video explicativo ${mod.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <span class="text-xs text-center text-purple-700 font-semibold block mt-2">▶ Mira el video explicativo si necesitas repasar antes de responder.</span>
+                        </div>
+                    </div>
+
+                    <!-- Question List Container -->
+                    <div id="questions-mod-${modIdx}" class="space-y-6 pt-4"></div>
+                `;
+
+                container.appendChild(modSection);
+
+                // Append Questions
+                const qListContainer = modSection.querySelector(`#questions-mod-${modIdx}`);
+                
+                mod.questions.forEach((q) => {
+                    const qCard = document.createElement('div');
+                    qCard.id = `qCard-${q.id}`;
+                    qCard.className = "bg-slate-50/70 rounded-2xl border border-slate-200 p-5 md:p-6 transition shadow-sm hover:shadow-md";
+
+                    let optionsHTML = '';
+                    q.options.forEach((opt, optIndex) => {
+                        const letter = String.fromCharCode(65 + optIndex);
+                        const labelText = q.type === 'tf' ? opt : `<span class="font-bold text-purple-700 mr-2">${letter}.</span> ${opt}`;
+                        
+                        optionsHTML += `
+                            <div class="flex items-center mb-2.5">
+                                <input type="radio" id="q${q.id}_opt${optIndex}" name="q${q.id}" value="${optIndex}" onchange="updateProgress()" class="custom-radio hidden">
+                                <label for="q${q.id}_opt${optIndex}" class="w-full text-slate-700 text-sm md:text-base font-medium py-3 px-4 rounded-xl border border-slate-200 bg-white hover:border-purple-300 hover:bg-purple-50/40 cursor-pointer transition flex items-center justify-between">
+                                    <span>${labelText}</span>
+                                    <span class="w-6 h-6 border-2 border-slate-300 rounded-full flex items-center justify-center text-transparent text-xs font-bold check-mark">✓</span>
+                                </label>
+                            </div>
+                        `;
+                    });
+
+                    qCard.innerHTML = `
+                        <div class="flex flex-col md:flex-row gap-5 items-start">
+                            <div class="shrink-0 self-center md:self-start">
+                                ${getMathSVG(q.svg, q.svgDetail)}
+                            </div>
+                            <div class="grow w-full">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="bg-purple-600 text-white text-xs font-bold px-2.5 py-0.5 rounded-md">Pregunta ${q.id}</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">${q.type === 'tf' ? 'Falso o Verdadero' : 'Selección Múltiple'}</span>
+                                </div>
+                                <h4 class="text-slate-900 font-bold text-base md:text-lg mb-4">${q.question}</h4>
+                                <div class="space-y-2">
+                                    ${optionsHTML}
+                                </div>
+                                <div id="explanation-${q.id}" class="hidden mt-4 p-4 rounded-xl text-xs md:text-sm font-medium"></div>
+                            </div>
+                        </div>
+                    `;
+
+                    qListContainer.appendChild(qCard);
+                });
+            });
+        }
+
+        // Live Progress Counter
+        function updateProgress() {
+            let answered = 0;
+            for (let i = 1; i <= 50; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) answered++;
+            }
+            document.getElementById('answeredCount').textContent = answered;
+            const percent = (answered / 50) * 100;
+            document.getElementById('progressBar').style.width = `${percent}%`;
+        }
+
+        // Grading Engine
+        function gradeExam() {
+            let scoreCount = 0;
+            let allQuestions = [];
+
+            mathModules.forEach(mod => {
+                mod.questions.forEach(q => {
+                    allQuestions.push(q);
+                });
+            });
+
+            allQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="q${q.id}"]:checked`);
+                const qCard = document.getElementById(`qCard-${q.id}`);
+                const expDiv = document.getElementById(`explanation-${q.id}`);
+
+                expDiv.classList.remove('hidden');
+
+                if (selected) {
+                    const userVal = parseInt(selected.value);
+                    if (userVal === q.answer) {
+                        scoreCount++;
+                        qCard.className = "bg-emerald-50/40 rounded-2xl border-2 border-emerald-500 p-5 md:p-6 transition shadow-sm";
+                        expDiv.className = "mt-4 p-4 rounded-xl text-xs md:text-sm font-semibold bg-emerald-100 text-emerald-900 border border-emerald-200";
+                        expDiv.innerHTML = `<strong>¡Correcto!</strong> ${q.explanation}`;
+                    } else {
+                        qCard.className = "bg-rose-50/40 rounded-2xl border-2 border-rose-400 p-5 md:p-6 transition shadow-sm";
+                        expDiv.className = "mt-4 p-4 rounded-xl text-xs md:text-sm font-semibold bg-rose-100 text-rose-900 border border-rose-200";
+                        expDiv.innerHTML = `<strong>Incorrecto.</strong> ${q.explanation}`;
+                    }
+                } else {
+                    qCard.className = "bg-amber-50/40 rounded-2xl border-2 border-amber-400 p-5 md:p-6 transition shadow-sm";
+                    expDiv.className = "mt-4 p-4 rounded-xl text-xs md:text-sm font-semibold bg-amber-100 text-amber-900 border border-amber-200";
+                    expDiv.innerHTML = `<strong>Sin Responder.</strong> ${q.explanation}`;
+                }
+            });
+
+            // Grade Scale Calculation (1.0 to 5.0)
+            const grade = (1.0 + (4.0 * (scoreCount / 50))).toFixed(1);
+            const percentage = ((scoreCount / 50) * 100).toFixed(0);
+
+            // Populate Student Summary Card
+            const name = document.getElementById('studentName').value || 'Estudiante';
+            const group = document.getElementById('studentGroup').value || '5° Grado';
+
+            document.getElementById('resultStudentInfo').textContent = `Estudiante: ${name} | Grado: ${group}`;
+            document.getElementById('finalScore').textContent = grade;
+            document.getElementById('correctCount').textContent = scoreCount;
+            document.getElementById('percentageScore').textContent = `${percentage}%`;
+
+            const feedbackMsg = document.getElementById('feedbackMessage');
+            if (parseFloat(grade) >= 4.5) {
+                feedbackMsg.textContent = "🏆 ¡Excelente trabajo! Dominas con maestría todos los temas de matemáticas de 5° grado.";
+                feedbackMsg.className = "text-lg font-bold text-emerald-700 mb-6";
+            } else if (parseFloat(grade) >= 3.5) {
+                feedbackMsg.textContent = "👍 ¡Buen desempeño! Tienes claros los conceptos principales. Repasa los videos para mejorar aún más.";
+                feedbackMsg.className = "text-lg font-bold text-purple-700 mb-6";
+            } else {
+                feedbackMsg.textContent = "📖 ¡Sigue practicando! Revisa atentamente los videos explicativos de cada módulo y vuelve a intentarlo.";
+                feedbackMsg.className = "text-lg font-bold text-amber-700 mb-6";
+            }
+
+            const resultsCard = document.getElementById('resultsCard');
+            resultsCard.classList.remove('hidden');
+            resultsCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Reset Exam Function
+        function resetExam() {
+            window.location.reload();
+        }
+
+        // Initialize Exam UI
+        window.onload = function() {
+            renderExam();
+        };
+    </script>
+</body>
+</html>
